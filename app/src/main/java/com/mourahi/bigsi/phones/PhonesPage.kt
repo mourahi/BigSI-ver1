@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mourahi.bigsi.components.*
+import com.mourahi.bigsi.groupsphone.GroupsPhone
 import com.mourahi.bigsi.viewModelMain
 
 @Composable
@@ -71,17 +72,17 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
             BtnOperation(checkOperation = { s -> Log.d("adil", "je check=$s") }),
         )
 
-        if (openedMenu.value) MoreMenu(openedMenu, mapMenu) // todo:a corriger
-//        if (phonesViewModel.openGroupsDialog.value) TitleDialog(
-//            title = "مجموعة الهاتف",
-//            groupsPhone = GroupsPhone(1, name = "DP-SAFI", region = "Marrakech-Safi"),
-//            viewModelGPhone
-//        )
-//        if (viewModelGPhone.openPhoneDialog.value) PhoneDialog(
-//            title = "Edit Phone",
-//            phone = Phone(1, "primaire", tel = "066666", nom = "adil mourahi"),
-//            viewModelGPhone
-//        )
+        if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
+        if (phonesViewModel.openGroupsDialog.value) TitleDialog(
+           title = "مجموعة الهاتف",
+           groupsPhone = GroupsPhone(1, name = "DP-SAFI", region = "Marrakech-Safi"),
+            phonesViewModel.openGroupsDialog
+        )
+        if (phonesViewModel .openPhoneDialog.value) PhoneDialog(
+           title = "Edit Phone",
+           phone = Phone(1, "primaire", tel = "066666", nom = "adil mourahi"),
+           phonesViewModel
+       )
 
         //Affichage
         Column(Modifier.fillMaxWidth()) {

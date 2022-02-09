@@ -5,25 +5,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mourahi.bigsi.groupsphone.GroupsPhone
-import com.mourahi.bigsi.repository.Repo
+import com.mourahi.bigsi.groupsphone.GroupsRepository
 import kotlinx.coroutines.launch
 
-class GroupsPhoneViewModel:ViewModel() {
+class GroupsPhoneViewModel : ViewModel() {
     val openGroupsDialog = mutableStateOf(false)
     val openCardOperations = mutableStateOf(false)
 
-    val gPhones = mutableStateOf(listOf<GroupsPhone>())
+    val gPhones = GroupsRepository.allData
 
 
     init {
-        Log.d("adil","GroupsPhoneViewModel: Initialisation groupsPhoneRepo")
+        Log.d("adil", "GroupsPhoneViewModel: Initialisation groupsPhoneRepo")
         viewModelScope.launch {
-            Repo.updateListGroupsPhone()
-            gPhones.value = Repo.groupsPhoneRepo.value!!
+            GroupsRepository.getAll(forServer = false)
         }
     }
 
 
 
+    fun insertGroupsPhone(gPh: GroupsPhone){
+        viewModelScope.launch{ GroupsRepository.insertGPhone(gPh) }
+    }
 
 }

@@ -10,11 +10,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.mourahi.bigsi.groupsphone.GroupsPhone
-import com.mourahi.bigsi.groupsphone.editgroupsphone.GroupsPhoneViewModel
 import com.mourahi.bigsi.phones.Phone
 import com.mourahi.bigsi.phones.PhonesViewModel
 
@@ -22,7 +22,9 @@ import com.mourahi.bigsi.phones.PhonesViewModel
 fun TitleDialog(
     title:String,
     groupsPhone: GroupsPhone?=null,
-    viewModel: GroupsPhoneViewModel)
+    openGroupsDialog: MutableState<Boolean>,
+    onSave:(groupsPhone: GroupsPhone?)->Unit = {}
+)
 {
     val name = remember { mutableStateOf(groupsPhone?.name ?: "")}
     val region = remember { mutableStateOf(groupsPhone?.region ?: "")}
@@ -49,15 +51,17 @@ fun TitleDialog(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
                 Button(onClick = {
                     Log.d("adil","save ")
-                    viewModel.openGroupsDialog.value = false  }) {
+                    openGroupsDialog.value = false
+                    onSave(GroupsPhone(name=name.value,region=region.value))
+                }) {
                     Text(text = "save")
                 }
                 Button(onClick =  {Log.d("adil","cancel")
-                    viewModel.openGroupsDialog.value = false})  {
+                    openGroupsDialog.value = false})  {
                     Text(text = "Cancel")
                 }
                 Button(onClick = {  Log.d("adil","delete ")
-                    viewModel.openGroupsDialog.value = false }) {
+                    openGroupsDialog.value = false }) {
                     Text(text = "delete")
                 }
             }

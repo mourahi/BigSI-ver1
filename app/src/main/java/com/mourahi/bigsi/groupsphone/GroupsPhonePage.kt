@@ -67,8 +67,10 @@ fun GroupsPhonePage(viewModelGPhone:GroupsPhoneViewModel= viewModel()){
         if(viewModelGPhone.openGroupsDialog.value) TitleDialog(
             title="مجموعة الهاتف",
             groupsPhone = null, //toujour new dans GroupPhonePage
-            viewModelGPhone
-        )
+            viewModelGPhone.openGroupsDialog,
+        ){
+                if(it != null) viewModelGPhone.insertGroupsPhone(it) else Log.d("adil","valeur null")
+        }
 
         Column(Modifier.fillMaxWidth()) {
             if(viewModelGPhone.openCardOperations.value) {
