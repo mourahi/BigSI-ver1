@@ -20,7 +20,6 @@ object GroupsRepository {
          }
      }
 
-
     private suspend fun groupsPhoneFromServer(): List<GroupsPhone> {
         val a = HttpCall.request(id = idGroupsPhone, "groupe")
         val re = mutableListOf<GroupsPhone>()
@@ -38,4 +37,8 @@ object GroupsRepository {
         myDao.insert(groupsPhone)
     }
 
+    suspend fun deleteAll(){
+        Log.d("adil","delete all")
+        myDao.deleteAll()
+    }
 }

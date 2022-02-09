@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mourahi.bigsi.groupsphone.GroupsPhone
 import com.mourahi.bigsi.groupsphone.GroupsRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class GroupsPhoneViewModel : ViewModel() {
@@ -18,7 +19,9 @@ class GroupsPhoneViewModel : ViewModel() {
     init {
         Log.d("adil", "GroupsPhoneViewModel: Initialisation groupsPhoneRepo")
         viewModelScope.launch {
-            GroupsRepository.getAll(forServer = false)
+            GroupsRepository.getAll(false)
+            delay(100)
+           if(gPhones.value.isNullOrEmpty()) GroupsRepository.getAll(true)
         }
     }
 
@@ -26,6 +29,12 @@ class GroupsPhoneViewModel : ViewModel() {
 
     fun insertGroupsPhone(gPh: GroupsPhone){
         viewModelScope.launch{ GroupsRepository.insertGPhone(gPh) }
+    }
+
+    fun deleteAll(){
+        viewModelScope.launch {
+            GroupsRepository.deleteAll()
+        }
     }
 
 }

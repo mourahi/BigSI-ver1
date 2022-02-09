@@ -56,6 +56,9 @@ fun GroupsPhonePage(viewModelGPhone:GroupsPhoneViewModel= viewModel()){
         val mapMenu = listOf(
             ItemMenu("مجموعة",viewModelGPhone.openGroupsDialog,Icons.Default.Add),
             ItemMenu("تدبير",viewModelGPhone.openCardOperations,Icons.Default.Check),
+            ItemMenu(" الكل",viewModelGPhone.openCardOperations,
+                Icons.Default.Delete
+            ) { viewModelGPhone.deleteAll() },
         )
         val buttons = listOf(
             BtnOperation(Icons.Default.Star) { Log.d("adil", "je EMAIL") },
@@ -76,6 +79,7 @@ fun GroupsPhonePage(viewModelGPhone:GroupsPhoneViewModel= viewModel()){
             if(viewModelGPhone.openCardOperations.value) {
                 CardOperations(buttons)
             }
+           if(viewModelGPhone.gPhones.value.isEmpty()) CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
             GroupsPhonePageContent(viewModelGPhone)
         }
     }

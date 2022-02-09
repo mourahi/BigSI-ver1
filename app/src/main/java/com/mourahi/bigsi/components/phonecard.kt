@@ -105,7 +105,7 @@ fun MoreMenu(openedMenu: MutableState<Boolean>, mapMenu: List<ItemMenu>){
         mapMenu.forEach {
             DropdownMenuItem(onClick = {
                 openedMenu.value = false
-                it.state.value= !it.state.value
+              if(it.operation == null)  it.state.value= !it.state.value else (it.operation)()
             }) {
                 Icon(it.icon, contentDescription =it.title,tint=if( it.state.value) Color.Red else Color.Black)
                 Text(it.title, color = if( it.state.value) Color.Red else Color.Black)
@@ -114,7 +114,12 @@ fun MoreMenu(openedMenu: MutableState<Boolean>, mapMenu: List<ItemMenu>){
 
     }
 }
-data class ItemMenu(val title:String, val state: MutableState<Boolean>, val icon:ImageVector)
+data class ItemMenu(
+    val title:String,
+    val state: MutableState<Boolean>,
+    val icon:ImageVector,
+    val operation: (() -> Unit)? = null
+)
 
 
 @Composable
