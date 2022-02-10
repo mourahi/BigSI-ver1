@@ -18,40 +18,51 @@ import androidx.compose.ui.unit.dp
 import com.mourahi.bigsi.R
 
 @Composable
- fun MyTextField(
-    title:String="",
-    label:String="",
-    defaultText:String = "",
-    openEditor:MutableState<Boolean>? = null, onChange:(defaultText:String)->Unit){
-    var txtFind  by  remember  { mutableStateOf(defaultText) }
-    var opened  by  remember  { mutableStateOf(false) }
+fun MyTextField(
+    title: String = "",
+    label: String = "",
+    defaultText: String = "",
+    openEditor: MutableState<Boolean>? = null, onChange: (defaultText: String) -> Unit
+) {
+    var txtFind by remember { mutableStateOf(defaultText) }
+    var opened by remember { mutableStateOf(false) }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        IconButton(onClick = {opened = !opened}) {
-            if(opened) Icon(painter = painterResource(id = R.drawable.ic_search_off), contentDescription = "stop search")   else Icon(Icons.Default.Search, contentDescription = "open", tint = Color.White)
+        IconButton(onClick = { opened = !opened }) {
+            if (opened) Icon(
+                painter = painterResource(id = R.drawable.ic_search_off),
+                contentDescription = "stop search"
+            ) else Icon(Icons.Default.Search, contentDescription = "open", tint = Color.White)
         }
-        TextField(value = txtFind,
+        TextField(
+            value = txtFind,
             onValueChange = {
-                txtFind=it
+                txtFind = it
                 onChange(it)
-                            },
-            leadingIcon = { IconButton(onClick = { txtFind="" }) {
-                Icon( Icons.Default.Clear, contentDescription = "clear", tint = Color.Black)
-            }
+            },
+            leadingIcon = {
+                IconButton(onClick = { txtFind = "" }) {
+                    Icon(Icons.Default.Clear, contentDescription = "clear", tint = Color.Black)
+                }
             },
             maxLines = 1,
-            label={ Text(text = label) },
+            label = { Text(text = label) },
             modifier = Modifier
                 .background(Color.White)
-                .width(if (!opened) 0.dp else TextFieldDefaults.MinWidth))
+                .width(if (!opened) 0.dp else TextFieldDefaults.MinWidth)
+        )
 
-        if(!opened) {
-           Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
-            if(openEditor != null)  openEditor.value = true
-           }) {
-               Text(title)
-               if(openEditor != null)  Icon(Icons.Default.Edit, contentDescription = "EditTitle", tint = Color.White)
-           }
+        if (!opened) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
+                if (openEditor != null) openEditor.value = true
+            }) {
+                Text(title)
+                if (openEditor != null) Icon(
+                    Icons.Default.Edit,
+                    contentDescription = "EditTitle",
+                    tint = Color.White
+                )
+            }
         }
 
     }

@@ -19,21 +19,20 @@ import com.mourahi.bigsi.phones.Phone
 import com.mourahi.bigsi.phones.PhonesViewModel
 
 @Composable
-fun TitleDialog(
-    title:String,
-    groupsPhone: GroupsPhone?=null,
+fun EditGroupsDialog(
+    title: String,
+    groupsPhone: GroupsPhone? = null,
     openGroupsDialog: MutableState<Boolean>,
-    onSave:(groupsPhone: GroupsPhone?)->Unit = {}
-)
-{
-    val name = remember { mutableStateOf(groupsPhone?.name ?: "")}
-    val region = remember { mutableStateOf(groupsPhone?.region ?: "")}
+    onSave: (groupsPhone: GroupsPhone?) -> Unit = {}
+) {
+    val name = remember { mutableStateOf(groupsPhone?.name ?: "") }
+    val region = remember { mutableStateOf(groupsPhone?.region ?: "") }
 
     AlertDialog(
         onDismissRequest = { },
         title = { Text(text = title) },
         text = {
-            Column(Modifier.fillMaxWidth()){
+            Column(Modifier.fillMaxWidth()) {
                 OutlinedTextField(
                     value = name.value,
                     onValueChange = { name.value = it },
@@ -47,75 +46,84 @@ fun TitleDialog(
             }
 
         },
-        confirmButton = { // if gphone == null ===>  NEW
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+        confirmButton = { // if gPhone == null ===>  NEW
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Button(onClick = {
-                    Log.d("adil","save ")
+                    Log.d("adil", "save ")
                     openGroupsDialog.value = false
-                    onSave(GroupsPhone(name=name.value,region=region.value))
+                    onSave(GroupsPhone(name = name.value, region = region.value))
                 }) {
                     Text(text = "save")
                 }
-                Button(onClick =  {Log.d("adil","cancel")
-                    openGroupsDialog.value = false})  {
+                Button(onClick = {
+                    Log.d("adil", "cancel")
+                    openGroupsDialog.value = false
+                }) {
                     Text(text = "Cancel")
                 }
-                Button(onClick = {  Log.d("adil","delete ")
-                    openGroupsDialog.value = false }) {
+                Button(onClick = {
+                    Log.d("adil", "delete ")
+                    openGroupsDialog.value = false
+                }) {
                     Text(text = "delete")
                 }
             }
         },
         dismissButton = {},
 
-    )
+        )
 }
 
 @Composable // dialog PHONE (NOM, TEL , CAT)
-fun PhoneDialog(
-    title:String,
-    phone:Phone?= null,
+fun EditPhoneDialog(
+    title: String,
+    phone: Phone? = null,
     viewModel: PhonesViewModel,
-    ) {
-    val nom = remember { mutableStateOf(phone?.nom ?: "")}
-    val tel = remember { mutableStateOf(phone?.tel ?: "")}
-    val cat = remember { mutableStateOf(phone?.cycle ?: "")}
+) {
+    val nom = remember { mutableStateOf(phone?.nom ?: "") }
+    val tel = remember { mutableStateOf(phone?.tel ?: "") }
+    val cat = remember { mutableStateOf(phone?.cycle ?: "") }
 
     AlertDialog(
         onDismissRequest = { },
         title = { Text(text = title) },
         text = {
             Column(Modifier.fillMaxWidth()) {
-                   OutlinedTextField(
-                       value =nom.value ,
-                       onValueChange ={nom.value = it},
-                       label = { Text(text ="الاسم الكامل" )}
-                   )
                 OutlinedTextField(
-                    value =tel.value ,
-                    onValueChange ={tel.value = it},
-                    label = { Text(text ="الهاتف" )}
+                    value = nom.value,
+                    onValueChange = { nom.value = it },
+                    label = { Text(text = "الاسم الكامل") }
                 )
                 OutlinedTextField(
-                    value =cat.value ,
-                    onValueChange ={cat.value = it},
-                    label = { Text(text ="الفئة" )}
+                    value = tel.value,
+                    onValueChange = { tel.value = it },
+                    label = { Text(text = "الهاتف") }
+                )
+                OutlinedTextField(
+                    value = cat.value,
+                    onValueChange = { cat.value = it },
+                    label = { Text(text = "الفئة") }
                 )
             }
- },
+        },
         confirmButton = { // if phone == null ===>  NEW
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-                Button(onClick = { // todo:a completer avec isNew
-                    Log.d("adil","save ")
-                    viewModel.openPhoneDialog.value = false  }) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Button(onClick = { // todo:a completer with isNew
+                    Log.d("adil", "save ")
+                    viewModel.openPhoneDialog.value = false
+                }) {
                     Text(text = "save")
                 }
-                Button(onClick =  {Log.d("adil","cancel")
-                        viewModel.openPhoneDialog.value = false})  {
+                Button(onClick = {
+                    Log.d("adil", "cancel")
+                    viewModel.openPhoneDialog.value = false
+                }) {
                     Text(text = "Cancel")
                 }
-                Button(onClick = {  Log.d("adil","delete ")
-                    viewModel.openPhoneDialog.value = false }) {
+                Button(onClick = {
+                    Log.d("adil", "delete ")
+                    viewModel.openPhoneDialog.value = false
+                }) {
                     Text(text = "delete")
                 }
             }

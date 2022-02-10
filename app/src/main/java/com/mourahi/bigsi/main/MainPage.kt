@@ -1,4 +1,4 @@
-package com.mourahi.bigsi
+package com.mourahi.bigsi.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mourahi.bigsi.ui.theme.myPadding
+import com.mourahi.bigsi.viewModelMain
 
 @Composable
 fun MainPage(){

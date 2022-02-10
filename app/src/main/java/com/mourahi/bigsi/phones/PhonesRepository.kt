@@ -3,15 +3,13 @@ package com.mourahi.bigsi.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mourahi.bigsi.phones.Phone
+import com.mourahi.bigsi.mydata.ApiSheet
 
 object Repo {
     private const val idGroupsPhone = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
     // Groups Phone ---------------------------------------------------------------
     //val groupsPhoneRepo = MutableLiveData<List<GroupsPhone>>()
     val phonesRepo = MutableLiveData<List<Phone>>()
-
-
-
 
     suspend fun updateListPhones(idSheet:String) {
         phonesRepo.value = phonesFromServer(idSheet)
@@ -21,7 +19,7 @@ object Repo {
 
     private suspend fun phonesFromServer(idSheet:String,sheet:String="data"): List<Phone> {
         Log.d("adil", "idsheet=$idSheet")
-        val a = HttpCall.request(id = idSheet, sheet)
+        val a = ApiSheet.request(id = idSheet, sheet)
         val re = mutableListOf<Phone>()
         if (a.isNotEmpty()) {
             repeat(a.size) {

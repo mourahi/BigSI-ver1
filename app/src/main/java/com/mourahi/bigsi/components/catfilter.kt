@@ -30,8 +30,8 @@ fun CatFilter(
     catsSelected: MutableList<String>,
     fResult: (catsSelected: MutableList<String>) -> Int
 ) {
-    Log.d("adil","lancement du catFIlter")
-   val deselectAll = remember { mutableStateOf(false)}
+    Log.d("adil", "Start CatFilter")
+    val deselectAll = remember { mutableStateOf(false) }
     val f = fun(cat: String) {
         if (catsSelected.contains(cat)) catsSelected.remove(cat)
         else catsSelected.add(cat)
@@ -42,23 +42,28 @@ fun CatFilter(
         IconButton(onClick = {
             fResult(mutableListOf())
             catsSelected.clear()
-           deselectAll.value = true
-            })
+            deselectAll.value = true
+        })
         {
             Icon(Icons.Default.Info, contentDescription = "deselect", tint = Color.Black)
         }
         LazyRow {
             items(cats) {
-                CatItemFilter(it, f, catsSelected.contains(it),deselectAll)
+                CatItemFilter(it, f, catsSelected.contains(it), deselectAll)
             }
         }
     }
 }
 
 @Composable
-fun CatItemFilter(cat: String, f: (cat: String) -> Unit,selected:Boolean,deselect:MutableState<Boolean>) {
-    val isSelected = remember { mutableStateOf(selected)}
-   if(deselect.value) isSelected.value = false
+fun CatItemFilter(
+    cat: String,
+    f: (cat: String) -> Unit,
+    selected: Boolean,
+    deselect: MutableState<Boolean>
+) {
+    val isSelected = remember { mutableStateOf(selected) }
+    if (deselect.value) isSelected.value = false
     Box(
         Modifier
             .padding(start = myPadding, top = myPadding, bottom = myPadding)

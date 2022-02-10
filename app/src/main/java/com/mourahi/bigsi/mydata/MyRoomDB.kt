@@ -1,4 +1,4 @@
-package com.mourahi.bigsi.repository.roomdb
+package com.mourahi.bigsi.mydata
 
 import android.content.Context
 import androidx.room.Database
@@ -7,23 +7,22 @@ import androidx.room.RoomDatabase
 import com.mourahi.bigsi.groupsphone.GroupsPhone
 import com.mourahi.bigsi.groupsphone.GroupsPhoneDao
 
-
-
 @Database(entities = [GroupsPhone::class], version = 1, exportSchema = false)
-abstract class GroupsRoomDB : RoomDatabase() {
-    abstract fun myDao(): GroupsPhoneDao
+abstract class MyRoomDB : RoomDatabase() {
+    abstract fun myGroupsDao(): GroupsPhoneDao
+
     companion object {
         @Volatile
-        private var INSTANCE: GroupsRoomDB? = null
+        private var INSTANCE: MyRoomDB? = null
 
-        fun getDatabase(
+        fun myDB(
             context: Context,
-        ): GroupsRoomDB {
+        ): MyRoomDB {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    GroupsRoomDB::class.java,
-                    "room_db"
+                    MyRoomDB::class.java,
+                    "bigsi-db-v5"
                 ).build()
                 INSTANCE = instance
                 instance

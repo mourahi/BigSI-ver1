@@ -20,7 +20,8 @@ import androidx.navigation.navArgument
 import com.mourahi.bigsi.formation.FormationsPage
 import com.mourahi.bigsi.forms.FormsPage
 import com.mourahi.bigsi.groupsphone.GroupsPhonePage
-import com.mourahi.bigsi.groupsphone.editgroupsphone.EditGroupsPhonePage
+import com.mourahi.bigsi.main.MainPage
+import com.mourahi.bigsi.main.MainViewModel
 import com.mourahi.bigsi.news.NewsPage
 import com.mourahi.bigsi.phones.PhonesPage
 import com.mourahi.bigsi.phones.detailsphone.DetailsPhone
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun BigSI() {
     NavHost(navController = viewModelMain.navController , startDestination = "mainpage"){
-        composable("mainpage"){ MainPage()}
+        composable("mainpage"){ MainPage() }
         composable("groupsphonepage"){ GroupsPhonePage()}
         composable("newspage"){ NewsPage()}
         composable("formspage"){ FormsPage()}
@@ -58,7 +59,6 @@ private fun BigSI() {
             PhonesPage(idSheet=x)
         }
         composable("formationspage"){ FormationsPage()}
-        composable("editgroupsphonepage"){ EditGroupsPhonePage()}
         composable("detailsphone"){ DetailsPhone()}
     }
 }

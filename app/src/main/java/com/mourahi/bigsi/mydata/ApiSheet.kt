@@ -1,11 +1,11 @@
-package com.mourahi.bigsi.repository
+package com.mourahi.bigsi.mydata
 
 import android.util.Log
 import com.google.gson.JsonParser
 import io.ktor.client.*
 import io.ktor.client.request.*
-
-object HttpCall {
+//Get data from google sheet
+object ApiSheet {
     private val client: HttpClient = HttpClient()
 
     suspend fun request(

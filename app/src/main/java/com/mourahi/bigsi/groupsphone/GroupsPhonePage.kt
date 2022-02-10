@@ -1,6 +1,7 @@
 package com.mourahi.bigsi.groupsphone
 
 import android.util.Log
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,12 +20,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mourahi.bigsi.R
 import com.mourahi.bigsi.components.*
-import com.mourahi.bigsi.groupsphone.editgroupsphone.GroupsPhoneViewModel
 import com.mourahi.bigsi.ui.theme.myPadding
 import com.mourahi.bigsi.viewModelMain
 
 @Composable
-fun GroupsPhonePage(viewModelGPhone:GroupsPhoneViewModel= viewModel()){
+fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
     val openedMenu =  remember  { mutableStateOf(false)}
 
     Scaffold(
@@ -53,21 +54,18 @@ fun GroupsPhonePage(viewModelGPhone:GroupsPhoneViewModel= viewModel()){
         }
     ) 
     {
-        val mapMenu = listOf(
-            ItemMenu("مجموعة",viewModelGPhone.openGroupsDialog,Icons.Default.Add),
-            ItemMenu("تدبير",viewModelGPhone.openCardOperations,Icons.Default.Check),
-            ItemMenu(" الكل",viewModelGPhone.openCardOperations,
-                Icons.Default.Delete
-            ) { viewModelGPhone.deleteAll() },
-        )
-        val buttons = listOf(
-            BtnOperation(Icons.Default.Star) { Log.d("adil", "je EMAIL") },
-            BtnOperation(Icons.Default.Favorite) { Log.d("adil", "je favoris") },
-            BtnOperation(checkOperation = {s->Log.d("adil","je check=$s")} ),
-        )
-
-        if(openedMenu.value)  MoreMenu(openedMenu,mapMenu)
-        if(viewModelGPhone.openGroupsDialog.value) TitleDialog(
+        // More menu ------------------------------------------
+        if(openedMenu.value) {
+            val mapMenu = listOf(
+                ItemMenu("مجموعة",Icons.Default.Add,viewModelGPhone.openGroupsDialog),
+                ItemMenu("تدبير",Icons.Default.Check,viewModelGPhone.openCardOperations),
+                ItemMenu(" الكل", Icons.Default.Delete,mutableStateOf(false),
+                ) { viewModelGPhone.deleteAll() },
+            )
+            MoreMenu(openedMenu, mapMenu)
+        }
+        // EditGroupsDialog------------------------------------------
+        if(viewModelGPhone.openGroupsDialog.value) EditGroupsDialog(
             title="مجموعة الهاتف",
             groupsPhone = null, //toujour new dans GroupPhonePage
             viewModelGPhone.openGroupsDialog,
@@ -75,27 +73,46 @@ fun GroupsPhonePage(viewModelGPhone:GroupsPhoneViewModel= viewModel()){
                 if(it != null) viewModelGPhone.insertGroupsPhone(it) else Log.d("adil","valeur null")
         }
 
+        // CardOperations------------------------------------------
         Column(Modifier.fillMaxWidth()) {
+            //tabRow
+
+            val tabData = listOf(
+                "Local" to Icons.Filled.Home,
+                "Distant" to Icons.Filled.ShoppingCart
+            )
+            val tabIndex = rememberSaveable { mutableStateOf(0) }
+            MyTabRow(tabData,tabIndex)
+
             if(viewModelGPhone.openCardOperations.value) {
+                val buttons = listOf(
+                    BtnOperation(Icons.Filled.Star) { Log.d("adil", "je EMAIL") },
+                    BtnOperation(Icons.Filled.Favorite) { Log.d("adil", "je favoris") },
+                    BtnOperation(Icons.Filled.Save ) { Log.d("adil", "je sauvegarde") },
+                    BtnOperation(checkOperation = {s->Log.d("adil","je check=$s")} ),
+                )
                 CardOperations(buttons)
             }
+            // CircularProgressIndicator------------------------------------------
            if(viewModelGPhone.gPhones.value.isEmpty()) CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
-            GroupsPhonePageContent(viewModelGPhone)
+
+            // Content------------------------------------------
+         if(tabIndex.value == 0)  GroupsPhonePageContent(viewModelGPhone) else  GroupsPhonePageContent(viewModelGPhone,tabIndex.value)
         }
     }
 }
 
 @Composable
-private fun GroupsPhonePageContent(viewModelGPhone: GroupsPhoneViewModel) {
+private fun GroupsPhonePageContent(viewModelGPhone: GroupsPhoneViewModel,tabIndex:Int=0) {
     LazyColumn{
-        items(viewModelGPhone.gPhones.value){
-            GroupsPhoneCard(viewModelGPhone,it)
+        items(if(tabIndex == 0) viewModelGPhone.gPhones.value else viewModelGPhone.gPhoneDistant.value){
+            GroupsPhoneCard(viewModelGPhone,it,tabIndex)
         }
     }
 }
 
 @Composable
-private fun GroupsPhoneCard(viewModelGPhone: GroupsPhoneViewModel,gPh: GroupsPhone){
+private fun GroupsPhoneCard(viewModelGPhone: GroupsPhoneViewModel, gPh: GroupsPhone,tabIndex: Int){
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -107,7 +124,6 @@ private fun GroupsPhoneCard(viewModelGPhone: GroupsPhoneViewModel,gPh: GroupsPho
                 .fillMaxSize()
                 .padding(myPadding)
                 .clickable {
-                    //viewModelGPhone.initPhonesPage(gPh.link) //todo: open PHone
                     viewModelMain.navController.navigate("phonespage/${gPh.link}")
                 },
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -119,9 +135,28 @@ private fun GroupsPhoneCard(viewModelGPhone: GroupsPhoneViewModel,gPh: GroupsPho
                 }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = {  }) {
-                    Icon(Icons.Default.Favorite, contentDescription = "favoris" )
-                }
+             if(tabIndex > 0) {
+                 IconButton(onClick = { // Save GroupsPhone to Room
+                     //gPh.isSaved = true ==> saved from distant , and not personnel
+                     gPh.isSaved = true
+                     viewModelGPhone.insertGroupsPhone(gPh)
+                 }) {
+                     Icon(Icons.Default.Save, contentDescription = "SaveToLocal")
+                 }
+             }else{
+                 val favored = remember { mutableStateOf(gPh.isFav)}
+                 IconToggleButton(checked =favored.value, onCheckedChange = {
+                     Log.d("adil","click isFav = ${gPh.isFav} it=$it")
+                     gPh.isSaved = it
+                     favored.value = it
+                 }) {
+                     val tint = animateColorAsState(
+                         if (favored.value) Color.Blue
+                         else Color.LightGray
+                     )
+                         Icon(Icons.Filled.Favorite, contentDescription = "favoris",tint=tint.value)
+                 }
+             }
                 if(viewModelGPhone.openCardOperations.value){
                     IconButton(onClick = { }) {
                         Icon(painterResource(id = R.drawable.ic_save), contentDescription = "Save")

@@ -62,8 +62,8 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
         }
     ) {
         val mapMenu = listOf(
-            ItemMenu("هاتف", phonesViewModel.openPhoneDialog, Icons.Default.Add),
-            ItemMenu("تدبير", phonesViewModel.openCardOperations, Icons.Default.Check),
+            ItemMenu("هاتف",Icons.Default.Add, phonesViewModel.openPhoneDialog),
+            ItemMenu("تدبير", Icons.Default.Check, phonesViewModel.openCardOperations),
         )
         val buttons = listOf(
             BtnOperation(Icons.Default.Send) { Log.d("adil", "je send") },
@@ -73,12 +73,12 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
         )
 
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
-        if (phonesViewModel.openGroupsDialog.value) TitleDialog(
+        if (phonesViewModel.openGroupsDialog.value) EditGroupsDialog(
            title = "مجموعة الهاتف",
-           groupsPhone = GroupsPhone(1, name = "DP-SAFI", region = "Marrakech-Safi"),
+           groupsPhone = GroupsPhone( name = "DP-SAFI", region = "Marrakech-Safi"),
             phonesViewModel.openGroupsDialog
         )
-        if (phonesViewModel .openPhoneDialog.value) PhoneDialog(
+        if (phonesViewModel .openPhoneDialog.value) EditPhoneDialog(
            title = "Edit Phone",
            phone = Phone(1, "primaire", tel = "066666", nom = "adil mourahi"),
            phonesViewModel

@@ -70,6 +70,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-runtime:$roomVersion"
 
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
