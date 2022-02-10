@@ -78,8 +78,8 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
             //tabRow
 
             val tabData = listOf(
-                "Local" to Icons.Filled.Home,
-                "Distant" to Icons.Filled.ShoppingCart
+               arrayOf("Local",Icons.Filled.Home,viewModelGPhone.gPhones.value),
+                arrayOf("Distant", Icons.Filled.ShoppingCart,viewModelGPhone.gPhoneDistant.value)
             )
             val tabIndex = rememberSaveable { mutableStateOf(0) }
             MyTabRow(tabData,tabIndex)
@@ -94,7 +94,15 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                 CardOperations(buttons)
             }
             // CircularProgressIndicator------------------------------------------
-           if(viewModelGPhone.gPhones.value.isEmpty()) CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
+/*            val isCircular = remember { mutableStateOf( viewModelGPhone.gPhones.value.isEmpty() && viewModelGPhone.gPhoneDistant.value.isEmpty())}
+           if(isCircular.value ) {
+               CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
+               val composableScope = rememberCoroutineScope()
+              composableScope.launch {
+                   delay(3000)
+                  isCircular.value = false
+               }
+           }*/
 
             // Content------------------------------------------
          if(tabIndex.value == 0)  GroupsPhonePageContent(viewModelGPhone) else  GroupsPhonePageContent(viewModelGPhone,tabIndex.value)
