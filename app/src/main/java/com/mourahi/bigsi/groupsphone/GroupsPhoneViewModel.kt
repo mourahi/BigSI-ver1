@@ -29,6 +29,18 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    fun delete(gPh:GroupsPhone){
+        viewModelScope.launch {
+            GroupsPhoneRepository.delete(gPh)
+        }
+    }
+
+    fun update(gPh: GroupsPhone){
+        viewModelScope.launch {
+            GroupsPhoneRepository.updateGphone(gPh)
+        }
+    }
+
     fun deleteAll(){
         viewModelScope.launch {
             GroupsPhoneRepository.deleteAll()

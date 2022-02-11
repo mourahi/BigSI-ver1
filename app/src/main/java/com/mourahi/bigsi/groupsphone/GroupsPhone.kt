@@ -9,11 +9,11 @@ import androidx.room.*
    @ColumnInfo var name:String,
    @ColumnInfo var region:String,
    @ColumnInfo var link:String,
-   @ColumnInfo var isSaved:Boolean,
+   @ColumnInfo var isSavedFromServer:Boolean,
    @ColumnInfo var isFav:Boolean,
 ){
-    constructor(name: String,region: String,link: String="",isSaved: Boolean=false,isFav: Boolean=false) :
-            this(0,name,region,link,isSaved,isFav )
+    constructor(name: String,region: String,link: String="",isSavedFromServer: Boolean=false,isFav: Boolean=false) :
+            this(0,name,region,link,isSavedFromServer,isFav )
 }
 
 @Dao
@@ -21,11 +21,14 @@ import androidx.room.*
     @Query("SELECT * FROM groups_phone")
     fun getAll(): LiveData<List<GroupsPhone>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     suspend fun insert(gPh: GroupsPhone)
 
-    @Query("DELETE FROM groups_phone WHERE id= :id")
-    suspend fun delete(id:Int)
+    @Query("DELETE FROM groups_phone WHERE link= :link")
+    suspend fun delete(link: String)
+
+    @Update
+    suspend fun update(gPh: GroupsPhone)
 
     @Query("DELETE FROM groups_phone")
     suspend fun deleteAll()

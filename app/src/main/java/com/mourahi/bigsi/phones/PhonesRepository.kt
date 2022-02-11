@@ -1,8 +1,7 @@
-package com.mourahi.bigsi.repository
+package com.mourahi.bigsi.phones
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.mourahi.bigsi.phones.Phone
 import com.mourahi.bigsi.mydata.ApiSheet
 
 object Repo {

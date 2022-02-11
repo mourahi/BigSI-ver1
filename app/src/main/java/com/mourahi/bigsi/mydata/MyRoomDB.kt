@@ -22,7 +22,7 @@ abstract class MyRoomDB : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MyRoomDB::class.java,
-                    "bigsi-db-v5"
+                    "bigsi-db-v7"
                 ).build()
                 INSTANCE = instance
                 instance

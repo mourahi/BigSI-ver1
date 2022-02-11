@@ -10,6 +10,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -84,10 +85,9 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
             // CardOperation --------------------------------------------
             if(viewModelGPhone.openCardOperations.value) {
                 val buttons = listOf(
-                    BtnOperation(Icons.Filled.Star) { Log.d("adil", "je EMAIL") },
-                    BtnOperation(Icons.Filled.Favorite) { Log.d("adil", "je favoris") },
-                    BtnOperation(Icons.Filled.Save ) { Log.d("adil", "je sauvegarde") },
-                    BtnOperation(checkOperation = {s->Log.d("adil","je check=$s")} ),
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Clear)){},
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){},
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){},
                 )
                 CardOperations(buttons)
             }
@@ -105,10 +105,11 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
             // Content------------------------------------------
                 GroupsPhonePageContent(
                     gPhones = viewModelGPhone.gPhones,
-                    isCardOperation = false,
+                    isCardOperation = viewModelGPhone.openCardOperations.value,
                     isCloud = false,
                     onInsert = {},
-                    onDelete = {}
+                    onDelete = {viewModelGPhone.delete(it) },
+                    onUpdate = {viewModelGPhone.update(it)}
                 )
         }
     }

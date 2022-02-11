@@ -11,6 +11,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,10 +67,8 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
             ItemMenu("تدبير", Icons.Default.Check, phonesViewModel.openCardOperations),
         )
         val buttons = listOf(
-            BtnOperation(Icons.Default.Send) { Log.d("adil", "je send") },
-            BtnOperation(Icons.Default.Email) { Log.d("adil", "je EMAIL") },
-            BtnOperation(Icons.Default.Delete) { Log.d("adil", "je Delete") },
-            BtnOperation(checkOperation = { s -> Log.d("adil", "je check=$s") }),
+            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){},
+            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){},
         )
 
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
