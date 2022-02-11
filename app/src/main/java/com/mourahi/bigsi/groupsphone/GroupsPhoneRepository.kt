@@ -30,16 +30,24 @@ object GroupsPhoneRepository {
             val fRegion = f.map{iii->iii.region}
             repeat(a.size) {
                 val d = a[it]
-                val ok= fName.contains(d[1]) && fRegion.contains(d[2])
-                if(!ok) re.add(GroupsPhone( d[1], d[2], d[3]))
+                val index = fName.indexOf(d[1])
+                val isHere= index>-1 && fRegion.indexOf(d[2])>-1
+               val gPh = GroupsPhone( d[1], d[2], d[3],isHere)
+                if(isHere) gPh.id =f[index].id
+                 re.add(gPh)
             }
         }
         return re
     }
 
-    suspend fun insertGPhone(groupsPhone: GroupsPhone) {
+    suspend fun insertGPhone(gPh: GroupsPhone) {
         Log.d("adil","je suis dans insertGPHONE")
-            myDao.insert(groupsPhone)
+            myDao.insert(gPh)
+    }
+
+    suspend fun delete(gPh:GroupsPhone){
+        Log.d("adil","delete from room id=${gPh.id}")
+        myDao.delete(gPh.id)
     }
 
     suspend fun deleteAll(){

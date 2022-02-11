@@ -20,8 +20,9 @@ import com.mourahi.bigsi.phones.PhonesViewModel
 import com.mourahi.bigsi.ui.theme.myPadding
 import com.mourahi.bigsi.viewModelMain
 
+// a revoir pour supprimer
 @Composable
-fun PhoneCard(ph: Phone, phonesViewModel: PhonesViewModel = viewModel()) {
+fun CardPhone(ph: Phone, phonesViewModel: PhonesViewModel = viewModel()) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

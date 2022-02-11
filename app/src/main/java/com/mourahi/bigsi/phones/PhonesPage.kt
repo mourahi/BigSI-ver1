@@ -110,7 +110,7 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
 private fun PhonesPageContent(phonesViewModel: PhonesViewModel) {
    LazyColumn{
        items(phonesViewModel.phones.value){
-           PhoneCard(ph = it)
+           CardPhone(ph = it)
        }
    }
 }
