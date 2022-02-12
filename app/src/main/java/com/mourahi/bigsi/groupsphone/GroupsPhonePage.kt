@@ -40,9 +40,12 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                     Icon(Icons.Default.Home, contentDescription = "return", tint = Color.White)
                 }},
                 actions = {
-                    IconButton(onClick = { viewModelMain.navController.navigate("groupscloudpage")}) {
-                        Icon(Icons.Filled.CloudDownload, contentDescription = "Cloud", tint = Color.White)
-                    }
+                    MyToggleIcon(icons = listOf(Icons.Filled.CloudDownload) , tint = Color.White, onclick ={
+                        if(!viewModelMain.isCo()) return@MyToggleIcon "Erreur Connexion"
+                        viewModelMain.navController.navigate("groupscloudpage")
+                        return@MyToggleIcon ""
+                    } )
+
                     IconButton(onClick = {
                         openedMenu.value = !openedMenu.value
                     }) {
@@ -87,7 +90,9 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                 val buttons = listOf(
                     MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Clear)){},
                     MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){},
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){},
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){
+
+                    },
                 )
                 CardOperations(buttons)
             }

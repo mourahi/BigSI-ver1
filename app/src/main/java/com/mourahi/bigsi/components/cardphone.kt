@@ -71,7 +71,7 @@ fun PhonePageContent(
                         selectFirst = false, // todo:a completer
                         icons = listOf(Icons.Filled.Edit) ) {
                         //todo: edit personnel Phones (open page Phone for edit)
-                        return@MyToggleIcon true
+                        return@MyToggleIcon ""
                     }
 
 
@@ -81,13 +81,13 @@ fun PhonePageContent(
                     icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder) ) {
                  ph.fav = !ph.fav
                   onUpdate(ph)
-                  return@MyToggleIcon true
+                  return@MyToggleIcon ""
                 }
 
                MyToggleIcon(
                   selectFirst = true, // todo:a completer
                     icons = listOf(Icons.Filled.CheckBox,Icons.Outlined.CheckBoxOutlineBlank) ) {
-                   return@MyToggleIcon true
+                   return@MyToggleIcon ""
                 }
             }
 

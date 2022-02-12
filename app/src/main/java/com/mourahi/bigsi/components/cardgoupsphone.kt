@@ -76,7 +76,7 @@ fun GroupsPhonePageContent(
                         selectFirst = false, // todo:a completer
                         icons = listOf(Icons.Filled.Edit) ) {
                         //todo: edit personnel phones (open page phone for edit)
-                        return@MyToggleIcon true
+                        return@MyToggleIcon ""
                     }
                 }else {
 
@@ -85,14 +85,14 @@ fun GroupsPhonePageContent(
                         icons = listOf(Icons.Filled.Clear,Icons.Filled.Save),
                         ){
                         Log.d("adil","(gPh.isSavedFromServer=${gPh.isSavedFromServer} && viewModelMain.isCo()=${viewModelMain.isCo()}")
-                       if(!gPh.isSavedFromServer && !viewModelMain.isCo()) return@MyToggleIcon false
+                       if(!gPh.isSavedFromServer && !viewModelMain.isCo()) return@MyToggleIcon "Probleme de connexion"
                         gPh.isSavedFromServer = !gPh.isSavedFromServer
                         if(gPh.isSavedFromServer) { // todo:save gPh + ph
                            onInsert(gPh)
                         } else {
                             onDelete(gPh)
                         }
-                        return@MyToggleIcon true
+                        return@MyToggleIcon ""
                     }
                 }
 
@@ -102,13 +102,13 @@ fun GroupsPhonePageContent(
                     icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder) ) {
                  gPh.isFav = !gPh.isFav
                   onUpdate(gPh)
-                  return@MyToggleIcon true
+                  return@MyToggleIcon ""
                 }
 
               if(isCardOperation)  MyToggleIcon(
                   selectFirst = true, // todo:a completer
                     icons = listOf(Icons.Filled.CheckBox,Icons.Outlined.CheckBoxOutlineBlank) ) {
-                  return@MyToggleIcon true
+                  return@MyToggleIcon ""
                 }
             }
 
