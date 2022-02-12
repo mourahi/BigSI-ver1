@@ -31,7 +31,7 @@ fun CardOperations(buttons: List<MyToggleI>) {
         {
             buttons.forEach {
                 MyToggleIcon(icons = it.icons, selectFirst = it.selectFirst){
-                        re-> it.onclick(re)
+                        re-> it.onclick(re);return@MyToggleIcon true
                 }
             }
 

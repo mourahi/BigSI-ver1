@@ -22,7 +22,7 @@ import androidx.room.*
     fun getAll(): LiveData<List<GroupsPhone>>
 
     @Insert
-    suspend fun insert(gPh: GroupsPhone)
+    suspend fun insert(gPh: GroupsPhone):Long
 
     @Query("DELETE FROM groups_phone WHERE link= :link")
     suspend fun delete(link: String)

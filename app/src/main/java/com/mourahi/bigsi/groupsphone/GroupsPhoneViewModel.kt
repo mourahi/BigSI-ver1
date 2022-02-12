@@ -19,14 +19,15 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
         gPhones.value = listOf()
         viewModelScope.launch {
             GroupsPhoneRepository.getAll(false)
-            //if(isConnected(application)) GroupsPhoneRepository.getAll(forServer = true)
         }
     }
 
-    fun insertGroupsPhone(gPh: GroupsPhone){
+    fun insertGroupsPhone(gPh: GroupsPhone) {
+
         viewModelScope.launch{
-            GroupsPhoneRepository.insertGPhone(gPh)
+          GroupsPhoneRepository.insertGPhone(gPh)
         }
+
     }
 
     fun delete(gPh:GroupsPhone){

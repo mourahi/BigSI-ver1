@@ -6,10 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.mourahi.bigsi.groupsphone.GroupsPhone
 import com.mourahi.bigsi.groupsphone.GroupsPhoneDao
+import com.mourahi.bigsi.phones.Phone
+import com.mourahi.bigsi.phones.PhoneDao
 
-@Database(entities = [GroupsPhone::class], version = 1, exportSchema = false)
+@Database(entities = [GroupsPhone::class,Phone::class], version = 1, exportSchema = false)
 abstract class MyRoomDB : RoomDatabase() {
     abstract fun myGroupsDao(): GroupsPhoneDao
+    abstract fun myPhoneDao():PhoneDao
 
     companion object {
         @Volatile
@@ -22,7 +25,7 @@ abstract class MyRoomDB : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MyRoomDB::class.java,
-                    "bigsi-db-v7"
+                    "bigsi-db-v8"
                 ).build()
                 INSTANCE = instance
                 instance

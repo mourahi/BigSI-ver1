@@ -3,6 +3,7 @@ package com.mourahi.bigsi.groupsphone
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import com.mourahi.bigsi.mydata.ApiSheet
+import com.mourahi.bigsi.phones.PhonesRepository
 import com.mourahi.bigsi.viewModelMain
 
 object GroupsPhoneRepository {
@@ -32,16 +33,26 @@ object GroupsPhoneRepository {
             repeat(a.size) {
                 val d = a[it]
                 val index = fLink.indexOf(d[2])
-               val gPh = GroupsPhone( d[0], d[1], d[2],index>-1)
+
+                val gPh =  if(index>-1)
+                          GroupsPhone(id = f[index].id,d[0], d[1], d[2], index > -1,f[index].isFav)
+                          else  GroupsPhone(d[0], d[1], d[2], index > -1)
+
                  re.add(gPh)
             }
         }
         return re
     }
 
-    suspend fun insertGPhone(gPh: GroupsPhone) {
-        Log.d("adil","je suis dans insertGPHONE")
-          myDao.insert(gPh)
+    suspend fun insertGPhone(gPh: GroupsPhone) { // save GroupsPhone + Phones
+        val refgroup = myDao.insert(gPh).toInt()
+        val data:MutableList<GroupsPhone> = allDataDistant.value as MutableList<GroupsPhone>
+        val i = data.indexOf(gPh)
+        gPh.id = refgroup
+        data[i] = gPh
+        allDataDistant.value
+        PhonesRepository.insertListPhonesFromGroupsPhone(gPh.link,refgroup)
+        Log.d("adil","GroupsPhoneRepository-insertGPhone name = ${gPh.name} refgroup=$refgroup")
     }
 
     suspend fun updateGphone(gPh: GroupsPhone){

@@ -3,8 +3,6 @@ package com.mourahi.bigsi.phones
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -79,7 +77,7 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
         )
         if (phonesViewModel .openPhoneDialog.value) EditPhoneDialog(
            title = "Edit Phone",
-           phone = Phone(1, "primaire", tel = "066666", nom = "adil mourahi"),
+           phone = Phone("primaire", tel = "066666", nom = "adil mourahi"),
            phonesViewModel
        )
 
@@ -100,11 +98,21 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
             // FIN CATFILTER
 
             if (phonesViewModel.openCardOperations.value) CardOperations(buttons)
-            PhonesPageContent(phonesViewModel)
+            PhonePageContent(
+                phones = phonesViewModel.phones,
+                isCardOperation = phonesViewModel.openCardOperations.value,
+                isCloud = false,
+                onInsert = {},
+                onDelete = {phonesViewModel.delete(it) },
+                onUpdate = {phonesViewModel.update(it)}
+            )
         }
     }
 }
 
+
+
+/*
 @Composable
 private fun PhonesPageContent(phonesViewModel: PhonesViewModel) {
    LazyColumn{
@@ -112,6 +120,6 @@ private fun PhonesPageContent(phonesViewModel: PhonesViewModel) {
            CardPhone(ph = it)
        }
    }
-}
+}*/
 
 

@@ -1,28 +1,51 @@
 package com.mourahi.bigsi.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.outlined.CheckBoxOutlineBlank
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mourahi.bigsi.phones.Phone
-import com.mourahi.bigsi.phones.PhonesViewModel
 import com.mourahi.bigsi.ui.theme.myPadding
-import com.mourahi.bigsi.viewModelMain
 
-// a revoir pour supprimer
+
 @Composable
-fun CardPhone(ph: Phone, phonesViewModel: PhonesViewModel = viewModel()) {
+fun PhonePageContent(
+    phones: MutableState<List<Phone>>,
+    isCardOperation:Boolean,
+    isCloud:Boolean,
+    onInsert:(ph:Phone)->Unit,
+    onDelete: (ph: Phone) -> Unit,
+    onUpdate: (ph: Phone) -> Unit={},
+
+    ) {
+    LazyColumn{
+        items(phones.value){
+            CardPhone(ph =it, isCardOperation, isCloud,onInsert,onDelete, onUpdate)
+        }
+    }
+}
+
+@Composable
+ fun CardPhone(ph: Phone,
+                     isCardOperation:Boolean,
+                     isCloud: Boolean,
+                     onInsert:(ph: Phone)->Unit={},
+                     onDelete:(ph:Phone)->Unit ={},
+                     onUpdate:(ph:Phone)->Unit = {}
+                     )
+ {
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,31 +58,39 @@ fun CardPhone(ph: Phone, phonesViewModel: PhonesViewModel = viewModel()) {
                 .padding(myPadding),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Default.Phone, "appel", tint = Color.Red)
-                }
-                Column(Modifier.clickable { viewModelMain.navController.navigate("detailsphone") }) {
-                    Text(text = ph.ecole)
-                    Text(text = ph.nom)
-                }
+        ){
+            Column {
+                Text(text = ph.ecole )
+                Text(text = ph.nom)
             }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                IconButton(onClick = { }) {
-                    Icon(Icons.Default.Favorite, contentDescription = "favoris")
-                }
-                if (phonesViewModel.openCardOperations.value) {
-                    IconButton(onClick = { phonesViewModel.openPhoneDialog.value = true }) {
-                        Icon(Icons.Default.Edit, contentDescription = "edit")
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+
+                    MyToggleIcon(
+                        selectFirst = false, // todo:a completer
+                        icons = listOf(Icons.Filled.Edit) ) {
+                        //todo: edit personnel Phones (open page Phone for edit)
+                        return@MyToggleIcon true
                     }
 
-                    MyCheckBox()
+
+
+              MyToggleIcon(
+                  selectFirst = ph.fav,
+                    icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder) ) {
+                 ph.fav = !ph.fav
+                  onUpdate(ph)
+                  return@MyToggleIcon true
+                }
+
+               MyToggleIcon(
+                  selectFirst = true, // todo:a completer
+                    icons = listOf(Icons.Filled.CheckBox,Icons.Outlined.CheckBoxOutlineBlank) ) {
+                   return@MyToggleIcon true
                 }
             }
+
         }
     }
 }

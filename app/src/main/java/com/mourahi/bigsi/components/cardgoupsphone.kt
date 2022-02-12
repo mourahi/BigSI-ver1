@@ -1,5 +1,6 @@
 package com.mourahi.bigsi.components
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,10 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckBox
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.CheckBoxOutlineBlank
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
@@ -60,7 +58,8 @@ fun GroupsPhonePageContent(
                 .fillMaxSize()
                 .padding(myPadding)
                 .clickable {
-                    viewModelMain.navController.navigate("phonespage/${gPh.link}")
+                    viewModelMain.navController
+                        .navigate("phonespage/${gPh.id.toString() +"*mourahi*"+ gPh.link}")
                 },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -71,66 +70,46 @@ fun GroupsPhonePageContent(
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-/*                    IconButton(onClick = {
-                       // Save GroupsPhone to Room
-                        if(!gPh.isSavedFromServer) {
-                            gPh.isSavedFromServer = true
-                            onInsert(gPh)
+
+                if(!isCloud && !gPh.isSavedFromServer){
+                    MyToggleIcon(
+                        selectFirst = false, // todo:a completer
+                        icons = listOf(Icons.Filled.Edit) ) {
+                        //todo: edit personnel phones (open page phone for edit)
+                        return@MyToggleIcon true
+                    }
+                }else {
+
+                    MyToggleIcon(
+                        selectFirst = gPh.isSavedFromServer,
+                        icons = listOf(Icons.Filled.Clear,Icons.Filled.Save),
+                        ){
+                        Log.d("adil","(gPh.isSavedFromServer=${gPh.isSavedFromServer} && viewModelMain.isCo()=${viewModelMain.isCo()}")
+                       if(!gPh.isSavedFromServer && !viewModelMain.isCo()) return@MyToggleIcon false
+                        gPh.isSavedFromServer = !gPh.isSavedFromServer
+                        if(gPh.isSavedFromServer) { // todo:save gPh + ph
+                           onInsert(gPh)
                         } else {
                             onDelete(gPh)
                         }
-                         // pour faire mise à jour du UI seulement
-                    }) {
-                        val t = if( gPh.isSavedFromServer) Color.Red else Color.Black
-                        Icon( if(gPh.isSavedFromServer) Icons.Default.Clear else Icons.Filled.Save, contentDescription = "SaveToLocal", tint = t)
-                    }*/
-
-/*                    val isFav = remember { mutableStateOf(gPh.isFav) }
-                    IconToggleButton(checked =isFav.value, onCheckedChange = {
-                        gPh.isSavedFromServer = it
-                       isFav.value = it
-                   }) {
-                        val tint = animateColorAsState(
-                            if (isFav.value) Color.Blue
-                           else Color.LightGray
-                        )
-                      Icon(Icons.Filled.Favorite, contentDescription = "favoris",tint=tint.value)
-                    }*/
-
-               // if(viewModelGPhone.openCardOperations.value){
-/*                if(isCardOperation){
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.Save, contentDescription = "Save")
-                    }
-                    MyCheckBox()
-                }*/
-
-                // teste du nouveau toggle ---------------------
-                MyToggleIcon(
-                    selectFirst = gPh.isSavedFromServer,
-                    icons = listOf(Icons.Filled.Clear,Icons.Filled.Save) ){
-                    gPh.isSavedFromServer = !gPh.isSavedFromServer
-                    if(gPh.isSavedFromServer) {
-                        onInsert(gPh)
-                    } else {
-                        onDelete(gPh)
+                        return@MyToggleIcon true
                     }
                 }
+
 
               if(!isCloud)  MyToggleIcon(
                   selectFirst = gPh.isFav,
                     icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder) ) {
                  gPh.isFav = !gPh.isFav
                   onUpdate(gPh)
+                  return@MyToggleIcon true
                 }
 
               if(isCardOperation)  MyToggleIcon(
-                  selectFirst = gPh.isFav,
+                  selectFirst = true, // todo:a completer
                     icons = listOf(Icons.Filled.CheckBox,Icons.Outlined.CheckBoxOutlineBlank) ) {
-
+                  return@MyToggleIcon true
                 }
-
-                // fin teste nouveau toogle -------------------
             }
 
         }
