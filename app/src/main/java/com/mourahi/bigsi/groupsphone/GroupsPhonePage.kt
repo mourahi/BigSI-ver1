@@ -90,8 +90,8 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                 val buttons = listOf(
                     MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Clear)){},
                     MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){},
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){
-
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBoxOutlineBlank,Icons.Filled.CheckBox)){
+                        viewModelGPhone.checkAll(!it)
                     },
                 )
                 CardOperations(buttons)

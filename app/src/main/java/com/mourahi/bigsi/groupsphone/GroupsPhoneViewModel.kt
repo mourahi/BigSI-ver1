@@ -12,7 +12,6 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
     val openCardOperations = mutableStateOf(false)
 
     val gPhones = GroupsPhoneRepository.allData
-   // val gPhoneDistant = GroupsPhoneRepository.allDataDistant
 
     init {
         Log.d("adil", "GroupsPhoneViewModel: Initialisation groupsPhoneRepo")
@@ -20,6 +19,15 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {
             GroupsPhoneRepository.getAll(false)
         }
+    }
+
+    fun checkAll(check:Boolean =true ){
+        val temp =  gPhones.value.toList()
+        gPhones.value = listOf()
+        temp.forEach {
+            it.isChecked = check
+        }
+        gPhones.value = temp
     }
 
     fun insertGroupsPhone(gPh: GroupsPhone) {

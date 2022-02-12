@@ -65,7 +65,7 @@ fun GroupsPhonePageContent(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column {
-                Text(text = gPh.name + " isFav:${gPh.isFav}")
+                Text(text = gPh.name + " isCheck:${gPh.isChecked}")
                 Text(text = gPh.region)
             }
 
@@ -106,7 +106,7 @@ fun GroupsPhonePageContent(
                 }
 
               if(isCardOperation)  MyToggleIcon(
-                  selectFirst = true, // todo:a completer
+                  selectFirst = gPh.isChecked, // todo:a completer
                     icons = listOf(Icons.Filled.CheckBox,Icons.Outlined.CheckBoxOutlineBlank) ) {
                   return@MyToggleIcon ""
                 }

@@ -11,9 +11,10 @@ import androidx.room.*
    @ColumnInfo var link:String,
    @ColumnInfo var isSavedFromServer:Boolean,
    @ColumnInfo var isFav:Boolean,
+   @ColumnInfo var isChecked:Boolean=false,
 ){
-    constructor(name: String,region: String,link: String="",isSavedFromServer: Boolean=false,isFav: Boolean=false) :
-            this(0,name,region,link,isSavedFromServer,isFav )
+    constructor(name: String,region: String,link: String="",isSavedFromServer: Boolean=false,isFav: Boolean=false,isChecked: Boolean=false) :
+            this(0,name,region,link,isSavedFromServer,isFav,isChecked )
 }
 
 @Dao
