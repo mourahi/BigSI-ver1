@@ -78,22 +78,24 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
         // CardOperations------------------------------------------
         Column(Modifier.fillMaxWidth()) {
             //tabRow
-//            val tabData = listOf(
-//               arrayOf("Local",Icons.Filled.Home,viewModelGPhone.gPhones.value),
-//                arrayOf("Distant", Icons.Filled.ShoppingCart,viewModelGPhone.gPhoneDistant.value)
-//            )
-//            val tabIndex = rememberSaveable { mutableStateOf(0) }
-//            MyTabRow(tabData,tabIndex)
+/*             val tabData = listOf(
+              arrayOf("Local",Icons.Filled.Home,viewModelGPhone.gPhones.value),
+               arrayOf("Distant", Icons.Filled.ShoppingCart,viewModelGPhone.gPhoneDistant.value) )
+           val tabIndex = rememberSaveable { mutableStateOf(0) }
+            MyTabRow(tabData,tabIndex)*/
 
             // CardOperation --------------------------------------------
             if(viewModelGPhone.openCardOperations.value) {
                 val buttons = listOf(
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Clear)){},
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){},
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBoxOutlineBlank,Icons.Filled.CheckBox)){
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Clear)){return@MyToggleI ""},
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){return@MyToggleI ""},
+                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBoxOutlineBlank,Icons.Filled.CheckBox)) {
                         viewModelGPhone.checkAll(!it)
+                        return@MyToggleI viewModelGPhone.gPhones.value.filter { j -> j.isChecked }.size.toString() + "/" + viewModelGPhone.gPhones.value.size.toString()
                     },
                 )
+
+
                 CardOperations(buttons)
             }
             // CircularProgressIndicator------------------------------------------

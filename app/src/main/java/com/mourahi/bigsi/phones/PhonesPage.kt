@@ -65,8 +65,8 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
             ItemMenu("تدبير", Icons.Default.Check, phonesViewModel.openCardOperations),
         )
         val buttons = listOf(
-            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){},
-            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){},
+            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){return@MyToggleI ""},
+            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){return@MyToggleI ""},
         )
 
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
@@ -97,7 +97,7 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
             }
             // FIN CATFILTER
 
-            if (phonesViewModel.openCardOperations.value) CardOperations(buttons)
+            if (phonesViewModel.openCardOperations.value) CardOperations(buttons)//todos:A complter
             PhonePageContent(
                 phones = phonesViewModel.phones,
                 isCardOperation = phonesViewModel.openCardOperations.value,

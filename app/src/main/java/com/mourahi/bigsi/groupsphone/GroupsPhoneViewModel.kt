@@ -22,12 +22,10 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun checkAll(check:Boolean =true ){
-        val temp =  gPhones.value.toList()
-        gPhones.value = listOf()
-        temp.forEach {
+        gPhones.value.forEach {
             it.isChecked = check
         }
-        gPhones.value = temp
+        viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones.value) }
     }
 
     fun insertGroupsPhone(gPh: GroupsPhone) {

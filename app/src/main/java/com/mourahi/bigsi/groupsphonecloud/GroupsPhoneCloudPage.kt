@@ -46,7 +46,7 @@ fun GroupsPhoneCloudPage(groupsPhoneCloudViewModel: GroupsPhoneCloudViewModel= v
             isCardOperation = false,
             isCloud = true,
             onInsert =  { gPh -> groupsPhoneCloudViewModel.insertGroupsPhone(gPh) },
-            onDelete = {gPh ->  groupsPhoneCloudViewModel.delete(gPh)}
+            onDelete = { gPh ->  groupsPhoneCloudViewModel.delete(gPh)}
         )
             }
 

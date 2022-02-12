@@ -31,6 +31,9 @@ import androidx.room.*
     @Update
     suspend fun update(gPh: GroupsPhone)
 
+    @Update
+    suspend fun updateAll(l:List<GroupsPhone>)
+
     @Query("DELETE FROM groups_phone")
     suspend fun deleteAll()
 }

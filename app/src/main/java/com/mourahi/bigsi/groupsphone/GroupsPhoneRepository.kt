@@ -11,6 +11,7 @@ object GroupsPhoneRepository {
     private val myDao:GroupsPhoneDao by lazy { viewModelMain.myDB.myGroupsDao()  }
 
     val allData = mutableStateOf(listOf<GroupsPhone>())
+
     val allDataDistant = mutableStateOf(listOf<GroupsPhone>())
 
      suspend fun getAll(forServer:Boolean= false){
@@ -19,7 +20,8 @@ object GroupsPhoneRepository {
          }else{
              myDao.getAll().observeForever {
                  Log.d("adil","ObserveForever hhhh")
-                 if(it != null ) allData.value = it else Log.d("adil","pas de données dans room")
+                 if(it != null ) allData.value = it
+                 else Log.d("adil","pas de données dans room")
              }
          }
      }
@@ -58,6 +60,9 @@ object GroupsPhoneRepository {
     suspend fun updateGphone(gPh: GroupsPhone){
         Log.d("adil","update gph ${gPh.name} isFav=${gPh.isFav} ")
         myDao.update(gPh)
+    }
+    suspend fun updateAll(l:List<GroupsPhone>){
+        myDao.updateAll(l)
     }
 
     suspend fun delete(gPh:GroupsPhone){

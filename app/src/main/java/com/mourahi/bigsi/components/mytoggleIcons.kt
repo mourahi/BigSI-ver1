@@ -37,4 +37,4 @@ fun  MyToggleIcon(selectFirst:Boolean=true,
     }
 }
 
-data class MyToggleI(val selectFirst: Boolean, val icons: List<ImageVector>,val onclick: (first: Boolean) -> Unit)
+data class MyToggleI(val selectFirst: Boolean, val icons: List<ImageVector>,val onclick: (first: Boolean) -> String)
