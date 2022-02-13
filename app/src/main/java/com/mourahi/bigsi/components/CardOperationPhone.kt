@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import com.mourahi.bigsi.ui.theme.myPadding
 
 @Composable
-fun CardOperations(buttons: List<MyToggleI>) { //string pour 5/100 par exemple
+fun CardOperationsPhone(buttons: List<MyToggleI>) { //string pour 5/100 par exemple
     Card(
         modifier = Modifier
             .fillMaxWidth()

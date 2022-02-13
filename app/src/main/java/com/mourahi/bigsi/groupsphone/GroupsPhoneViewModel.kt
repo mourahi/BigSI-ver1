@@ -21,6 +21,11 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    fun getNbrChecked():String{
+        val nbr = gPhones.value.size.toString()
+        return gPhones.value.filter { it.isChecked }.size.toString()+ "/"+nbr
+    }
+
     fun checkAll(check:Boolean =true ){
         gPhones.value.forEach {
             it.isChecked = check

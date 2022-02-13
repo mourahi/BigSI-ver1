@@ -10,7 +10,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -83,21 +82,6 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                arrayOf("Distant", Icons.Filled.ShoppingCart,viewModelGPhone.gPhoneDistant.value) )
            val tabIndex = rememberSaveable { mutableStateOf(0) }
             MyTabRow(tabData,tabIndex)*/
-
-            // CardOperation --------------------------------------------
-            if(viewModelGPhone.openCardOperations.value) {
-                val buttons = listOf(
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Clear)){return@MyToggleI ""},
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){return@MyToggleI ""},
-                    MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBoxOutlineBlank,Icons.Filled.CheckBox)) {
-                        viewModelGPhone.checkAll(!it)
-                        return@MyToggleI viewModelGPhone.gPhones.value.filter { j -> j.isChecked }.size.toString() + "/" + viewModelGPhone.gPhones.value.size.toString()
-                    },
-                )
-
-
-                CardOperations(buttons)
-            }
             // CircularProgressIndicator------------------------------------------
 /*            val isCircular = remember { mutableStateOf( viewModelGPhone.gPhones.value.isEmpty() && viewModelGPhone.gPhoneDistant.value.isEmpty())}
            if(isCircular.value ) {
@@ -109,6 +93,15 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                }
            }*/
 
+            // CardOperation --------------------------------------------
+
+            if(viewModelGPhone.openCardOperations.value) CardOperationsGroupsPhone(
+                gphs =  viewModelGPhone.gPhones.value
+            ) { checked ->
+                viewModelGPhone.checkAll(checked)
+                return@CardOperationsGroupsPhone viewModelGPhone.getNbrChecked()
+            }
+
             // Content------------------------------------------
                 GroupsPhonePageContent(
                     gPhones = viewModelGPhone.gPhones,
@@ -116,7 +109,7 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                     isCloud = false,
                     onInsert = {},
                     onDelete = {viewModelGPhone.delete(it) },
-                    onUpdate = {viewModelGPhone.update(it)}
+                    onUpdate = {viewModelGPhone.update(it)},
                 )
         }
     }

@@ -97,7 +97,7 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
             }
             // FIN CATFILTER
 
-            if (phonesViewModel.openCardOperations.value) CardOperations(buttons)//todos:A complter
+            if (phonesViewModel.openCardOperations.value) CardOperationsPhone(buttons)//todos:A complter
             PhonePageContent(
                 phones = phonesViewModel.phones,
                 isCardOperation = phonesViewModel.openCardOperations.value,
