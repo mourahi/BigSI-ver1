@@ -32,7 +32,10 @@ import androidx.room.*
     suspend fun update(gPh: GroupsPhone)
 
     @Update
-    suspend fun updateAll(l:List<GroupsPhone>)
+    suspend fun updateList(l:List<GroupsPhone>)
+
+    @Delete
+    suspend fun deleteList(l:List<GroupsPhone>)
 
     @Query("DELETE FROM groups_phone")
     suspend fun deleteAll()

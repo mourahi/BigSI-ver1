@@ -96,11 +96,18 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
             // CardOperation --------------------------------------------
 
             if(viewModelGPhone.openCardOperations.value) CardOperationsGroupsPhone(
-                gphs =  viewModelGPhone.gPhones.value
-            ) { checked ->
-                viewModelGPhone.checkAll(checked)
-                return@CardOperationsGroupsPhone viewModelGPhone.getNbrChecked()
-            }
+                gphs =  viewModelGPhone.gPhones.value,
+                onCheckedAll = { checked ->
+                    viewModelGPhone.checkAll(checked)
+                    return@CardOperationsGroupsPhone viewModelGPhone.getNbrChecked()
+                },
+                onUpdateList = {
+                    viewModelGPhone.updateList(it)
+                },
+                onDeleteList = {
+                    viewModelGPhone.deleteList(it)
+                }
+            )
 
             // Content------------------------------------------
                 GroupsPhonePageContent(
@@ -109,7 +116,7 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                     isCloud = false,
                     onInsert = {},
                     onDelete = {viewModelGPhone.delete(it) },
-                    onUpdate = {viewModelGPhone.update(it)},
+                    onUpdate = {viewModelGPhone.update(it)}
                 )
         }
     }

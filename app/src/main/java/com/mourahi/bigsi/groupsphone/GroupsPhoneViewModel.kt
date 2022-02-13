@@ -52,6 +52,17 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
             GroupsPhoneRepository.updateGphone(gPh)
         }
     }
+    fun updateList(gphs:List<GroupsPhone>){
+        viewModelScope.launch {
+            GroupsPhoneRepository.updateAll(gphs)
+        }
+    }
+
+    fun deleteList(l:List<GroupsPhone>){
+        viewModelScope.launch {
+            GroupsPhoneRepository.deleteList(l)
+        }
+    }
 
     fun deleteAll(){
         viewModelScope.launch {

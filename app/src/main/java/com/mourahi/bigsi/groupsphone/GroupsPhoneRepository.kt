@@ -62,12 +62,16 @@ object GroupsPhoneRepository {
         myDao.update(gPh)
     }
     suspend fun updateAll(l:List<GroupsPhone>){
-        myDao.updateAll(l)
+        myDao.updateList(l)
     }
 
     suspend fun delete(gPh:GroupsPhone){
         Log.d("adil","delete from room id=${gPh.id}")
         myDao.delete(gPh.link)
+    }
+
+    suspend fun deleteList(l:List<GroupsPhone>){
+        myDao.deleteList(l)
     }
 
     suspend fun deleteAll(){
