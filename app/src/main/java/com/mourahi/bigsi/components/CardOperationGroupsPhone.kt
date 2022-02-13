@@ -54,11 +54,14 @@ fun CardOperationsGroupsPhone(gphs: List<GroupsPhone>,
                     icons = listOf(Icons.Filled.Favorite, Icons.Filled.FavoriteBorder)
                 ) // todo:A complter ici pour click sur fav ---------------------------
                 { etatFav ->
+                    val plusCheck = gphs.filter { n -> n.isChecked }.size > 1
+                    val plusFav = gphs.any { n -> n.isFav }
                     gphs.forEach { g ->
                        g.isFav = when(true){
                            ch.first  -> if(fa.first) !g.isFav else true
                            fa.first -> if(g.isChecked) !g.isFav else g.isFav
-                           else -> if(g.isChecked) !g.isFav else g.isFav
+                           plusCheck && !plusFav -> g.isChecked
+                           else ->  if(g.isChecked) !g.isFav else g.isFav
                        }
                     }
                     onUpdateList(gphs)

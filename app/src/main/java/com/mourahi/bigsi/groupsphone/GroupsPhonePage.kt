@@ -59,7 +59,9 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
         if(openedMenu.value) {
             val mapMenu = listOf(
                 ItemMenu("مجموعة",Icons.Default.Add,viewModelGPhone.openGroupsDialog),
-                ItemMenu("تدبير",Icons.Default.Check,viewModelGPhone.openCardOperations),
+                ItemMenu("تدبير",Icons.Default.Check,viewModelGPhone.openCardOperations){
+                                      viewModelGPhone.checkAll(false)
+                },
                 ItemMenu(" الكل", Icons.Default.Delete,mutableStateOf(false),
                 ) { viewModelGPhone.deleteAll() },
             )
@@ -71,7 +73,7 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
             groupsPhone = null, //toujour new dans GroupPhonePage
             viewModelGPhone.openGroupsDialog,
         ){
-                if(it != null) viewModelGPhone.insertGroupsPhone(it) else Log.d("adil","valeur null")
+                if(it != null) viewModelGPhone.insertGroupsPhone(it,true) else Log.d("adil","valeur null")
         }
 
         // CardOperations------------------------------------------

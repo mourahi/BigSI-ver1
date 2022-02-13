@@ -32,11 +32,16 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
         }
         viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones.value) }
     }
+    fun favAllList(l:List<GroupsPhone>,fav:Boolean=true){
+        gPhones.value.forEach {
+            it.isFav = fav
+        }
+        viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones.value) }
+    }
 
-    fun insertGroupsPhone(gPh: GroupsPhone) {
-
+    fun insertGroupsPhone(gPh: GroupsPhone, personal:Boolean=false) {
         viewModelScope.launch{
-          GroupsPhoneRepository.insertGPhone(gPh)
+         if(!personal) GroupsPhoneRepository.insertGPhone(gPh) else GroupsPhoneRepository.insertNewPersonelGroupsPhone(gPh)
         }
 
     }

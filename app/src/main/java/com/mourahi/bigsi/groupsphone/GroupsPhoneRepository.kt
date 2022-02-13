@@ -57,6 +57,10 @@ object GroupsPhoneRepository {
         Log.d("adil","GroupsPhoneRepository-insertGPhone name = ${gPh.name} refgroup=$refgroup")
     }
 
+    suspend fun insertNewPersonelGroupsPhone(gPh: GroupsPhone){
+        myDao.insert(gPh)
+    }
+
     suspend fun updateGphone(gPh: GroupsPhone){
         Log.d("adil","update gph ${gPh.name} isFav=${gPh.isFav} ")
         myDao.update(gPh)
