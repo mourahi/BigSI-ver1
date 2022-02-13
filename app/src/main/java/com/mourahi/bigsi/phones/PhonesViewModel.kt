@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PhonesViewModel:ViewModel() {
@@ -19,20 +17,25 @@ class PhonesViewModel:ViewModel() {
     val subCatsSelected = mutableStateOf(mutableListOf<String>())
 
     val phones = PhonesRepository.allData
-    val idSheet = MutableStateFlow("")
+    val activeGroupsPhone = PhonesRepository.activeGroupsPhone
 
      init{
         Log.d("adil","PhonesViewModel: Initialisation phoneRepo")
          phones.value = listOf()
          viewModelScope.launch {
-             idSheet.collect {
+             val activeGPH = PhonesRepository.activeGroupsPhone.value
+             PhonesRepository.getAll(activeGPH.link,activeGPH.id)
+             Log.d("adil","phones = ${PhonesRepository.allData.value}")
+
+/*             idSheet.collect {
                  if(it.isNotEmpty()){ // plus que 1 c'est sur idsheet d'un serveur
                      val p = it.split("*mourahi*")
-                     Log.d("adil","Mon idsheet = $p egalite=${ p[0].toInt()== 0}")
+                     Log.d("adil","Mon idsheet = $p personal=${ p[0].toInt()== 0}")
                    PhonesRepository.getAll(p[1],forServer = p[0].toInt()==0,p[0].toInt())
+                     Log.d("adil","groups depuis page phone = ${activeGroupsPhone.value}")
                      updateCats()
                  }
-             }
+             }*/
          }
     }
 

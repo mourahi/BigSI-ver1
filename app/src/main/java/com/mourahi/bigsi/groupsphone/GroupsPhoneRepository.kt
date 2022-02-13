@@ -35,8 +35,8 @@ object GroupsPhoneRepository {
             repeat(a.size) {
                 val d = a[it]
                 val index = fLink.indexOf(d[2])
-
-                val gPh =  if(index>-1)
+                Log.d("adil","index = $index")
+                val gPh =  if(index>-1) // -1 de teste et pas pour id hhhhh
                           GroupsPhone(id = f[index].id,d[0], d[1], d[2], index > -1,f[index].isFav)
                           else  GroupsPhone(d[0], d[1], d[2], index > -1)
 
@@ -47,14 +47,18 @@ object GroupsPhoneRepository {
     }
 
     suspend fun insertGPhone(gPh: GroupsPhone) { // save GroupsPhone + Phones
+        Log.d("adil","2/ GroupsPhoneRepository id= ${gPh.id} ref=${gPh.link}")//todo:-----------------------
         val refgroup = myDao.insert(gPh).toInt()
-        val data:MutableList<GroupsPhone> = allDataDistant.value as MutableList<GroupsPhone>
+        Log.d("adil","fin insert GPH, et essaie d'inserer PHONES AVEC refGroup=$refgroup")
+/*        val data:MutableList<GroupsPhone> = allDataDistant.value as MutableList<GroupsPhone>
+
         val i = data.indexOf(gPh)
         gPh.id = refgroup
-        data[i] = gPh
-        allDataDistant.value
+        data[i] = gPh*/
+       // allDataDistant.value
+
         PhonesRepository.insertListPhonesFromGroupsPhone(gPh.link,refgroup)
-        Log.d("adil","GroupsPhoneRepository-insertGPhone name = ${gPh.name} refgroup=$refgroup")
+        Log.d("adil","fin insertListPhonesFromGroupsPhone")
     }
 
     suspend fun insertNewPersonelGroupsPhone(gPh: GroupsPhone){
@@ -72,15 +76,23 @@ object GroupsPhoneRepository {
     suspend fun delete(gPh:GroupsPhone){
         Log.d("adil","delete from room id=${gPh.id}")
         myDao.delete(gPh.link)
+        PhonesRepository.deleteFromGroupsPhone(gPh.id)
     }
 
     suspend fun deleteList(l:List<GroupsPhone>){
         myDao.deleteList(l)
+        PhonesRepository.deleteFromGroupsPhoneList( l.map { it.id })
     }
 
     suspend fun deleteAll(){
         Log.d("adil","delete all")
         myDao.deleteAll()
+        PhonesRepository.deleteAll()
     }
+
+     fun getGPhone(id:Int): GroupsPhone {
+      return  myDao.getById(id)
+    }
+
 
 }

@@ -21,12 +21,12 @@ import com.mourahi.bigsi.phones.PhonesViewModel
 @Composable
 fun EditGroupsDialog(
     title: String,
-    groupsPhone: GroupsPhone? = null,
+    groupsPhone: GroupsPhone,
     openGroupsDialog: MutableState<Boolean>,
     onSave: (groupsPhone: GroupsPhone?) -> Unit = {}
 ) {
-    val name = remember { mutableStateOf(groupsPhone?.name ?: "") }
-    val region = remember { mutableStateOf(groupsPhone?.region ?: "") }
+    val name = remember { mutableStateOf(groupsPhone.name ?: "") }
+    val region = remember { mutableStateOf(groupsPhone.region ?: "") }
 
     AlertDialog(
         onDismissRequest = { },
@@ -50,8 +50,8 @@ fun EditGroupsDialog(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Button(onClick = {
                     Log.d("adil", "save ")
-                    openGroupsDialog.value = false
-                    onSave(GroupsPhone(name = name.value, region = region.value))
+                    openGroupsDialog.value = false  //on update et pas  on save
+                   // onSave(GroupsPhone(name = name.value, region = region.value))
                 }) {
                     Text(text = "save")
                 }

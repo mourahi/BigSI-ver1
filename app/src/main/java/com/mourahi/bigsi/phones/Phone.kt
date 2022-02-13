@@ -19,7 +19,8 @@ data class Phone(
     @ColumnInfo var refgroup: Int,
 ){
     constructor(cycle:String="",commune: String="",gresa: String="",ecole: String="",nom: String="",
-    tel: String="",fonction: String="",email: String="",geo: String="",fav: Boolean=false,refgroup: Int=-1
+    tel: String="",fonction: String="",email: String="",
+                geo: String="",fav: Boolean=false,refgroup: Int=0
                 ):this(0,cycle,commune,gresa,ecole,nom,tel,fonction,email,geo,fav,refgroup)
 }
 
@@ -34,8 +35,9 @@ interface PhoneDao{
     @Insert
     suspend fun insertList(phs:List<Phone>)
 
+    @Transaction
     @Query("DELETE FROM phone WHERE refgroup= :refgroup")
-    suspend fun delete(refgroup: Int)
+    suspend fun deleteByRefgroup(refgroup: Int)
 
     @Update
     suspend fun update(ph: Phone)

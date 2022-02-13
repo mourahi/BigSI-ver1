@@ -22,6 +22,9 @@ import androidx.room.*
     @Query("SELECT * FROM groups_phone")
     fun getAll(): LiveData<List<GroupsPhone>>
 
+    @Query("SELECT * FROM groups_phone Where id = :id")
+    fun getById(id:Int):GroupsPhone
+
     @Insert
     suspend fun insert(gPh: GroupsPhone):Long
 

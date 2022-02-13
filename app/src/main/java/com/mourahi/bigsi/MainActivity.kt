@@ -12,11 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.mourahi.bigsi.formation.FormationsPage
 import com.mourahi.bigsi.forms.FormsPage
 import com.mourahi.bigsi.groupsphone.GroupsPhonePage
@@ -55,10 +53,7 @@ private fun BigSI() {
         composable("groupsphonepage"){ GroupsPhonePage()}
         composable("newspage"){ NewsPage()}
         composable("formspage"){ FormsPage()}
-        composable("phonespage/{IdSheet}", arguments = listOf(navArgument("IdSheet"){type= NavType.StringType})){
-           val x:String = it.arguments?.get("IdSheet") as String
-            PhonesPage(idSheet=x)
-        }
+        composable("phonespage"){ PhonesPage()}
         composable("formationspage"){ FormationsPage()}
         composable("detailsphone"){ DetailsPhone()}
         composable("groupscloudpage"){ GroupsPhoneCloudPage() }

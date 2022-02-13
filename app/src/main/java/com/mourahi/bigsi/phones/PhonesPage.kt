@@ -17,13 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mourahi.bigsi.components.*
-import com.mourahi.bigsi.groupsphone.GroupsPhone
 import com.mourahi.bigsi.viewModelMain
 
 @Composable
-fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
+fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
     val openedMenu = remember { mutableStateOf(false) }
-    phonesViewModel.idSheet.value = idSheet
     Scaffold(
         topBar = {
             TopAppBar(
@@ -72,7 +70,7 @@ fun PhonesPage(idSheet:String, phonesViewModel: PhonesViewModel= viewModel()) {
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
         if (phonesViewModel.openGroupsDialog.value) EditGroupsDialog(
            title = "مجموعة الهاتف",
-           groupsPhone = GroupsPhone( name = "DP-SAFI", region = "Marrakech-Safi"),
+           groupsPhone = phonesViewModel.activeGroupsPhone.value,
             phonesViewModel.openGroupsDialog
         )
         if (phonesViewModel .openPhoneDialog.value) EditPhoneDialog(

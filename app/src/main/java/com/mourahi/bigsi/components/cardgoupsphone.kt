@@ -16,6 +16,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mourahi.bigsi.groupsphone.GroupsPhone
+import com.mourahi.bigsi.phones.PhonesRepository
 import com.mourahi.bigsi.ui.theme.myPadding
 import com.mourahi.bigsi.viewModelMain
 
@@ -58,9 +59,10 @@ fun GroupsPhonePageContent(
             Modifier
                 .fillMaxSize()
                 .padding(myPadding)
-                .clickable {
+                .clickable { // open Phone : params string = "id+*mourahi*+idsheet"
+                    PhonesRepository.activeGroupsPhone.value = gPh
                     viewModelMain.navController
-                        .navigate("phonespage/${gPh.id.toString() +"*mourahi*"+ gPh.link}")
+                        .navigate("phonespage")
                 },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -72,31 +74,32 @@ fun GroupsPhonePageContent(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                if(!isCloud && !gPh.isSavedFromServer){
+               /* if(!isCloud && !gPh.isSavedFromServer){
                     MyToggleIcon(
                         selectFirst = false, // todo:a completer
                         icons = listOf(Icons.Filled.Edit) ) {
                         //todo: edit personnel phones (open page phone for edit)
                         return@MyToggleIcon ""
                     }
-                }
+                }*/
 
                 if(!isCardOperation)    MyToggleIcon(
-                        selectFirst = gPh.isSavedFromServer,
-                        icons =if(isCloud) listOf(Icons.Filled.Clear,Icons.Filled.Save) else listOf(Icons.Filled.Delete),
+                    selectFirst = gPh.isSavedFromServer,
+                    icons =if(isCloud) listOf(Icons.Filled.Clear,Icons.Filled.Save) else listOf(Icons.Filled.Delete),
 
-                        )
-                    {
-                        Log.d("adil","(gPh.isSavedFromServer=${gPh.isSavedFromServer} && viewModelMain.isCo()=${viewModelMain.isCo()}")
-                       if(!gPh.isSavedFromServer && !viewModelMain.isCo()) return@MyToggleIcon "Probleme de connexion"
-                        gPh.isSavedFromServer = !gPh.isSavedFromServer
-                        if(gPh.isSavedFromServer) {
-                           onInsert(gPh)
-                        } else {
-                            onDelete(gPh)
-                        }
-                        return@MyToggleIcon ""
+                    )
+                {
+                    Log.d("adil","(gPh.isSavedFromServer=${gPh.isSavedFromServer} && viewModelMain.isCo()=${viewModelMain.isCo()}")
+                    if(!gPh.isSavedFromServer && !viewModelMain.isCo()) return@MyToggleIcon "Probleme de connexion"
+                    gPh.isSavedFromServer = !gPh.isSavedFromServer
+                    if(gPh.isSavedFromServer) {
+                        Log.d("adil","1/ cardGroupsPHnoe:gph id=${gPh.id} , link=${gPh.link}")
+                       onInsert(gPh)
+                    } else {
+                        onDelete(gPh)
                     }
+                    return@MyToggleIcon ""
+                }
 
 
 

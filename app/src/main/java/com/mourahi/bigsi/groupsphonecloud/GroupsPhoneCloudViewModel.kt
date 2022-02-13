@@ -15,7 +15,6 @@ class GroupsPhoneCloudViewModel() : ViewModel() {
         Log.d("adil", "GroupsPhoneCloudViewModel: Initialisation ")
         gPhones.value = listOf()
         viewModelScope.launch {
-            Log.d("adil","viewmodeol cloud connexion= ${viewModelMain.isCo()}")
             if(viewModelMain.isCo()) GroupsPhoneRepository.getAll(forServer = true)
         }
     }
