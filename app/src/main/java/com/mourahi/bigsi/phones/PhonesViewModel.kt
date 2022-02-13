@@ -18,6 +18,7 @@ class PhonesViewModel:ViewModel() {
 
     val phones = PhonesRepository.allData
     val activeGroupsPhone = PhonesRepository.activeGroupsPhone
+    var activePhone = Phone(ecole = "", tel = "", cycle = "")
 
      init{
         Log.d("adil","PhonesViewModel: Initialisation phoneRepo")
@@ -25,8 +26,7 @@ class PhonesViewModel:ViewModel() {
          viewModelScope.launch {
              val activeGPH = PhonesRepository.activeGroupsPhone.value
              PhonesRepository.getAll(activeGPH.link,activeGPH.id)
-             Log.d("adil","phones = ${PhonesRepository.allData.value}")
-
+             updateCats()
 /*             idSheet.collect {
                  if(it.isNotEmpty()){ // plus que 1 c'est sur idsheet d'un serveur
                      val p = it.split("*mourahi*")

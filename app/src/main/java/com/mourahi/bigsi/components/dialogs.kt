@@ -51,7 +51,8 @@ fun EditGroupsDialog(
                 Button(onClick = {
                     Log.d("adil", "save ")
                     openGroupsDialog.value = false  //on update et pas  on save
-                   // onSave(GroupsPhone(name = name.value, region = region.value))
+
+                   onSave(GroupsPhone(name = name.value, region = region.value))
                 }) {
                     Text(text = "save")
                 }
@@ -77,12 +78,11 @@ fun EditGroupsDialog(
 @Composable // dialog PHONE (NOM, TEL , CAT)
 fun EditPhoneDialog(
     title: String,
-    phone: Phone? = null,
     viewModel: PhonesViewModel,
 ) {
-    val nom = remember { mutableStateOf(phone?.nom ?: "") }
-    val tel = remember { mutableStateOf(phone?.tel ?: "") }
-    val cat = remember { mutableStateOf(phone?.cycle ?: "") }
+    val nom = remember { mutableStateOf(viewModel.activePhone.nom ) }
+    val tel = remember { mutableStateOf(viewModel.activePhone.tel ) }
+    val cat = remember { mutableStateOf(viewModel.activePhone.cycle ) }
 
     AlertDialog(
         onDismissRequest = { },
@@ -111,6 +111,15 @@ fun EditPhoneDialog(
                 Button(onClick = { // todo:a completer with isNew
                     Log.d("adil", "save ")
                     viewModel.openPhoneDialog.value = false
+                    if(viewModel.activePhone.ref == 0){
+                        viewModel.insertPhone( Phone(ecole=nom.value, tel = tel.value, cycle = cat.value, refgroup =viewModel.activeGroupsPhone.value.id  ),)
+                    }else {
+                        val p = viewModel.activePhone
+                        p.ecole = nom.value
+                        p.tel = tel.value
+                        p.commune=cat.value
+                        viewModel.update(viewModel.activePhone)
+                    }
                 }) {
                     Text(text = "save")
                 }
@@ -123,6 +132,7 @@ fun EditPhoneDialog(
                 Button(onClick = {
                     Log.d("adil", "delete ")
                     viewModel.openPhoneDialog.value = false
+                    viewModel.delete(viewModel.activePhone)
                 }) {
                     Text(text = "delete")
                 }

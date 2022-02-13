@@ -27,7 +27,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
             TopAppBar(
                 title = {
                     MyTextField(
-                        title = "Phone-DP-SAFI",
+                        title = phonesViewModel.activeGroupsPhone.value.name,
                         label = "par nom ou num",
                         defaultText = "",
                         openEditor = phonesViewModel.openGroupsDialog
@@ -59,7 +59,9 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
         }
     ) {
         val mapMenu = listOf(
-            ItemMenu("هاتف",Icons.Default.Add, phonesViewModel.openPhoneDialog),
+            ItemMenu("هاتف",Icons.Default.Add, phonesViewModel.openPhoneDialog){
+            phonesViewModel.activePhone = Phone("","")
+            },
             ItemMenu("تدبير", Icons.Default.Check, phonesViewModel.openCardOperations),
         )
         val buttons = listOf(
@@ -68,14 +70,15 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
         )
 
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
+
         if (phonesViewModel.openGroupsDialog.value) EditGroupsDialog(
            title = "مجموعة الهاتف",
            groupsPhone = phonesViewModel.activeGroupsPhone.value,
             phonesViewModel.openGroupsDialog
         )
-        if (phonesViewModel .openPhoneDialog.value) EditPhoneDialog(
+
+        if (phonesViewModel.openPhoneDialog.value) EditPhoneDialog(
            title = "Edit Phone",
-           phone = Phone("primaire", tel = "066666", nom = "adil mourahi"),
            phonesViewModel
        )
 
@@ -98,11 +101,10 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
             if (phonesViewModel.openCardOperations.value) CardOperationsPhone(buttons)//todos:A complter
             PhonePageContent(
                 phones = phonesViewModel.phones,
-                isCardOperation = phonesViewModel.openCardOperations.value,
-                isCloud = false,
-                onInsert = {},
-                onDelete = {phonesViewModel.delete(it) },
-                onUpdate = {phonesViewModel.update(it)}
+                phoneViewModel = phonesViewModel,
+                onEdit = {
+
+                }
             )
         }
     }

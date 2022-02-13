@@ -9,13 +9,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.mourahi.bigsi.R
 
 @Composable
 fun MyTextField(
@@ -30,7 +29,7 @@ fun MyTextField(
     Row(verticalAlignment = Alignment.CenterVertically) {
         IconButton(onClick = { opened = !opened }) {
             if (opened) Icon(
-                painter = painterResource(id = R.drawable.ic_search_off),
+                Icons.Outlined.Search,
                 contentDescription = "stop search"
             ) else Icon(Icons.Default.Search, contentDescription = "open", tint = Color.White)
         }

@@ -61,6 +61,7 @@ fun CardOperationsGroupsPhone(gphs: List<GroupsPhone>,
                            ch.first  -> if(fa.first) !g.isFav else true
                            fa.first -> if(g.isChecked) !g.isFav else g.isFav
                            plusCheck && !plusFav -> g.isChecked
+                           plusCheck && plusFav -> if(g.isChecked) g.isFav else g.isChecked
                            else ->  if(g.isChecked) !g.isFav else g.isFav
                        }
                     }

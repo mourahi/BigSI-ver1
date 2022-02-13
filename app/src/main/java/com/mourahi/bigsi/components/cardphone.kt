@@ -16,34 +16,26 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mourahi.bigsi.phones.Phone
+import com.mourahi.bigsi.phones.PhonesViewModel
 import com.mourahi.bigsi.ui.theme.myPadding
 
 
 @Composable
 fun PhonePageContent(
     phones: MutableState<List<Phone>>,
-    isCardOperation:Boolean,
-    isCloud:Boolean,
-    onInsert:(ph:Phone)->Unit,
-    onDelete: (ph: Phone) -> Unit,
-    onUpdate: (ph: Phone) -> Unit={},
+    phoneViewModel: PhonesViewModel,
+    onEdit: (ph: Phone) -> Unit
 
     ) {
     LazyColumn{
         items(phones.value){
-            CardPhone(ph =it, isCardOperation, isCloud,onInsert,onDelete, onUpdate)
+            CardPhone(ph =it, phoneViewModel, onEdit )
         }
     }
 }
 
 @Composable
- fun CardPhone(ph: Phone,
-                     isCardOperation:Boolean,
-                     isCloud: Boolean,
-                     onInsert:(ph: Phone)->Unit={},
-                     onDelete:(ph:Phone)->Unit ={},
-                     onUpdate:(ph:Phone)->Unit = {}
-                     )
+ fun CardPhone(ph: Phone, phoneViewModel:PhonesViewModel,onEdit:(ph:Phone)->Unit={} )
  {
 
     Card(
@@ -71,6 +63,9 @@ fun PhonePageContent(
                         selectFirst = false, // todo:a completer
                         icons = listOf(Icons.Filled.Edit) ) {
                         //todo: edit personnel Phones (open page Phone for edit)
+                        phoneViewModel.activePhone = ph
+                        phoneViewModel.openPhoneDialog.value = true
+
                         return@MyToggleIcon ""
                     }
 
@@ -80,7 +75,7 @@ fun PhonePageContent(
                   selectFirst = ph.fav,
                     icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder) ) {
                  ph.fav = !ph.fav
-                  onUpdate(ph)
+
                   return@MyToggleIcon ""
                 }
 
