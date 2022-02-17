@@ -17,7 +17,7 @@ import com.mourahi.bigsi.phones.Phone
 import com.mourahi.bigsi.ui.theme.myPadding
 
 @Composable
-fun CardOperationsPhone(phones: List<Phone>,onCheckAll:(Boolean)->Unit,onUpdateList:(phones: List<Phone>)->Unit) { //string pour 5/100 par exemple
+fun CardOperationsPhone(phones: List<Phone>,onCheckAll:(Boolean)->Unit,onUpdateList:(phones: List<Phone>)->Unit,onDeleteList:(phones: List<Phone>)->Unit) { //string pour 5/100 par exemple
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,8 +40,8 @@ fun CardOperationsPhone(phones: List<Phone>,onCheckAll:(Boolean)->Unit,onUpdateL
             phones.forEach {
                     if(it.isChecked) temp.add(it)
                 }
-                //onDeleteList(temp)
-                return@MyToggleIcon ""
+              if(temp.size>0) onDeleteList(temp)
+                return@MyToggleIcon if(temp.size<1) "Rien à supprimer" else ""
             }
             val ch = getChecked(phones)
             val fa = getFavored(phones)

@@ -75,12 +75,15 @@ object PhonesRepository {
         myDao.checkAll(check,refGroup)
     }
 
-
-
     suspend fun delete(ph: Phone){
         Log.d("adil","delete from room id=${ph.ref}")
         myDao.deleteByRefgroup(ph.refgroup)
     }
+
+    suspend fun deleteList(phs:List<Phone>){
+            myDao.deleteList(phs.map { it.ref })
+    }
+
     suspend fun deleteFromGroupsPhone(refGroup: Int){
         myDao.deleteByRefgroup(refGroup)
     }

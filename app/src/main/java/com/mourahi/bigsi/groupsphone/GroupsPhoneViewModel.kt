@@ -15,28 +15,28 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
 
     init {
         Log.d("adil", "GroupsPhoneViewModel: Initialisation groupsPhoneRepo")
-        gPhones.value = listOf()
+        gPhones.clear() // ici initial par value listof (peut etre cause erreur)
         viewModelScope.launch {
             GroupsPhoneRepository.getAll(false)
         }
     }
 
     fun getNbrChecked():String{
-        val nbr = gPhones.value.size.toString()
-        return gPhones.value.filter { it.isChecked }.size.toString()+ "/"+nbr
+        val nbr = gPhones.size.toString()
+        return gPhones.filter { it.isChecked }.size.toString()+ "/"+nbr
     }
 
     fun checkAll(check:Boolean =true ){
-        gPhones.value.forEach {
+        gPhones.forEach {
             it.isChecked = check
         }
-        viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones.value) }
+        viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones) }
     }
     fun favAllList(l:List<GroupsPhone>,fav:Boolean=true){
-        gPhones.value.forEach {
+        gPhones.forEach {
             it.isFav = fav
         }
-        viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones.value) }
+        viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones) }
     }
 
     fun insertGroupsPhone(gPh: GroupsPhone, personal:Boolean=false) {

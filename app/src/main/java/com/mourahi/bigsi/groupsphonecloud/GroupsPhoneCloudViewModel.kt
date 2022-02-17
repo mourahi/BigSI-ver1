@@ -13,7 +13,7 @@ class GroupsPhoneCloudViewModel() : ViewModel() {
 
     init {
         Log.d("adil", "GroupsPhoneCloudViewModel: Initialisation ")
-        gPhones.value = listOf()
+        gPhones.add(GroupsPhone("",""))
         viewModelScope.launch {
             if(viewModelMain.isCo()) GroupsPhoneRepository.getAll(forServer = true)
         }

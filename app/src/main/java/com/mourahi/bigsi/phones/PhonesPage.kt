@@ -99,7 +99,8 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                 onCheckAll = {
                     phonesViewModel.checkAll(it)
                 },
-                onUpdateList = { phonesViewModel.updateList(it) }
+                onUpdateList = { phonesViewModel.updateList(it) },
+                onDeleteList = {phonesViewModel.deleteList(it) }
             )//todos:A complter
 
             PhonePageContent(

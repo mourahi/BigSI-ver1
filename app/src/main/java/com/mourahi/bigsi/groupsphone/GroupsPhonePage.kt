@@ -98,7 +98,7 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
             // CardOperation --------------------------------------------
 
             if(viewModelGPhone.openCardOperations.value) CardOperationsGroupsPhone(
-                gphs =  viewModelGPhone.gPhones.value,
+                gphs =  viewModelGPhone.gPhones,
                 onCheckedAll = { checked ->
                     viewModelGPhone.checkAll(checked)
                     return@CardOperationsGroupsPhone viewModelGPhone.getNbrChecked()

@@ -52,4 +52,7 @@ interface PhoneDao{
 
     @Query("DELETE FROM phone")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM phone WHERE ref IN (:l)")
+    suspend fun deleteList(l:List<Int>)
 }

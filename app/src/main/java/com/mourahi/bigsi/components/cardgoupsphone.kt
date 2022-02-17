@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.CheckBoxOutlineBlank
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mourahi.bigsi.groupsphone.GroupsPhone
@@ -23,7 +22,7 @@ import com.mourahi.bigsi.viewModelMain
 
 @Composable
 fun GroupsPhonePageContent(
-    gPhones: MutableState<List<GroupsPhone>>,
+    gPhones: List<GroupsPhone>,
     isCardOperation:Boolean=false,
     isCloud:Boolean = false,
     onInsert:(gPh:GroupsPhone)->Unit={},
@@ -32,7 +31,7 @@ fun GroupsPhonePageContent(
 
 ) {
     LazyColumn{
-        items(gPhones.value){
+        items(gPhones){
             CardGroupsPhone(it, isCardOperation, isCloud,onInsert,onDelete, onUpdate)
         }
     }

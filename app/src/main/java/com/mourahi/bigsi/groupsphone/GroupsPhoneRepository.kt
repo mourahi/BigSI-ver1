@@ -1,7 +1,7 @@
 package com.mourahi.bigsi.groupsphone
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import com.mourahi.bigsi.mydata.ApiSheet
 import com.mourahi.bigsi.phones.PhonesRepository
 import com.mourahi.bigsi.viewModelMain
@@ -10,17 +10,19 @@ object GroupsPhoneRepository {
     private const val idGroupsPhone = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
     private val myDao:GroupsPhoneDao by lazy { viewModelMain.myDB.myGroupsDao()  }
 
-    val allData = mutableStateOf(listOf<GroupsPhone>())
+    val allData = mutableStateListOf<GroupsPhone>()
 
-    val allDataDistant = mutableStateOf(listOf<GroupsPhone>())
+    val allDataDistant = mutableStateListOf<GroupsPhone>()
 
      suspend fun getAll(forServer:Boolean= false){
          if(forServer){
-              allDataDistant.value = groupsPhoneFromServer()
+             allDataDistant.clear()
+              allDataDistant.addAll(groupsPhoneFromServer())
          }else{
              myDao.getAll().observeForever {
                  Log.d("adil","ObserveForever hhhh")
-                 if(it != null ) allData.value = it
+                 allData.clear()
+                 if(it != null ) allData.addAll(it)
                  else Log.d("adil","pas de données dans room")
              }
          }
@@ -30,12 +32,11 @@ object GroupsPhoneRepository {
         val a = ApiSheet.request(id = idGroupsPhone, "groupe")
         val re = mutableListOf<GroupsPhone>()
         if (a.isNotEmpty()) {
-            val f= allData.value.filter { i->i.isSavedFromServer }
+            val f= allData.filter { i->i.isSavedFromServer }
             val fLink=f.map { ii->ii.link }
             repeat(a.size) {
                 val d = a[it]
                 val index = fLink.indexOf(d[2])
-                Log.d("adil","index = $index")
                 val gPh =  if(index>-1) // -1 de teste et pas pour id hhhhh
                           GroupsPhone(id = f[index].id,d[0], d[1], d[2], index > -1,f[index].isFav)
                           else  GroupsPhone(d[0], d[1], d[2], index > -1)

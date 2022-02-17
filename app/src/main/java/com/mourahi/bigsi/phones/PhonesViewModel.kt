@@ -62,6 +62,12 @@ class PhonesViewModel:ViewModel() {
         }
     }
 
+    fun deleteList(phs:List<Phone>){
+        viewModelScope.launch {
+            PhonesRepository.deleteList(phs)
+        }
+    }
+
     fun updateList(phs: List<Phone>){
         viewModelScope.launch {
             PhonesRepository.updateList(phs)
