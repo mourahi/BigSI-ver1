@@ -21,8 +21,11 @@ import androidx.compose.ui.unit.sp
 import com.mourahi.bigsi.ui.theme.myPadding
 import com.mourahi.bigsi.viewModelMain
 
+
+
 @Composable
 fun MainPage(){
+
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
             item {
                 Text(text = "BigSI", fontSize = 30.sp)
