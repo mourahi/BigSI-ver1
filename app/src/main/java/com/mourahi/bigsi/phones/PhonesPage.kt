@@ -8,8 +8,10 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,12 +29,11 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
             TopAppBar(
                 title = {
                     MyTextField(
-                        title = phonesViewModel.activeGroupsPhone.value.name,
+                        title = phonesViewModel.activeGroupsPhone.name,
                         label = "par nom ou num",
                         defaultText = "",
                         openEditor = phonesViewModel.openGroupsDialog
                     ) {
-                        Log.d("adil", "valeur chercher = $it")
                     }
                 },
                 navigationIcon = {
@@ -46,7 +47,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                 },
                 actions = {
                     IconButton(onClick = {
-                        openedMenu.value = !openedMenu.value
+                        openedMenu.value = true
                     }) {
                         Icon(
                             Icons.Default.MoreVert,
@@ -64,16 +65,12 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
             },
             ItemMenu("تدبير", Icons.Default.Check, phonesViewModel.openCardOperations),
         )
-        val buttons = listOf(
-            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.Favorite,Icons.Outlined.FavoriteBorder)){return@MyToggleI ""},
-            MyToggleI(selectFirst = true, icons = listOf(Icons.Filled.CheckBox,Icons.Filled.CheckBoxOutlineBlank)){return@MyToggleI ""},
-        )
 
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
 
         if (phonesViewModel.openGroupsDialog.value) EditGroupsDialog(
            title = "مجموعة الهاتف",
-           groupsPhone = phonesViewModel.activeGroupsPhone.value,
+           groupsPhone = phonesViewModel.activeGroupsPhone,
             phonesViewModel.openGroupsDialog
         )
 
@@ -85,41 +82,40 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
         //Affichage
         Column(Modifier.fillMaxWidth()) {
             //travial sur CAT
-            Log.d("adil","cats = ${phonesViewModel.cats.value}")
-            CatFilter(phonesViewModel.cats.value,
-                phonesViewModel.catsSelected.value, // Affichage
+            CatFilter(phonesViewModel.cats,
+                phonesViewModel.catsSelected, // Affichage
                 ) {
                 Log.d("adil","Fresultat =${it}")
             }
-            CatFilter(phonesViewModel.subCats.value,
-                phonesViewModel.subCatsSelected.value, // Affichage
+            CatFilter(phonesViewModel.subCats,
+                phonesViewModel.subCatsSelected, // Affichage
             ) {
                 Log.d("adil","FsubCatResultat =${it}")
             }
             // FIN CATFILTER
 
-            if (phonesViewModel.openCardOperations.value) CardOperationsPhone(buttons)//todos:A complter
+            if (phonesViewModel.openCardOperations.value) CardOperationsPhone(
+               phonesViewModel.phones,
+                onCheckAll = {
+                    phonesViewModel.checkAll(it)
+                },
+                onUpdateList = { phonesViewModel.updateList(it) }
+            )//todos:A complter
+
             PhonePageContent(
                 phones = phonesViewModel.phones,
-                phoneViewModel = phonesViewModel,
+                onCardOperations = phonesViewModel.openCardOperations,
                 onEdit = {
-
+                    phonesViewModel.activePhone = it
+                    phonesViewModel.openPhoneDialog.value = true
+                },
+                onUpdate = {
+                    phonesViewModel.activePhone = it
+                    phonesViewModel.update(it)
                 }
             )
         }
     }
 }
-
-
-
-/*
-@Composable
-private fun PhonesPageContent(phonesViewModel: PhonesViewModel) {
-   LazyColumn{
-       items(phonesViewModel.phones.value){
-           CardPhone(ph = it)
-       }
-   }
-}*/
 
 

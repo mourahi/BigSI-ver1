@@ -1,6 +1,5 @@
 package com.mourahi.bigsi.components
 
-import android.util.Log
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -19,7 +18,6 @@ fun MoreMenu(openedMenu: MutableState<Boolean>, mapMenu: List<ItemMenu>) {
         mapMenu.forEach {
             DropdownMenuItem(onClick = {
                 openedMenu.value = false
-                Log.d("adil","it.operation = ${it.operation}")
                 if (it.operation != null) (it.operation)()
                 it.state.value = !it.state.value
             }) {

@@ -60,7 +60,7 @@ fun GroupsPhonePageContent(
                 .fillMaxSize()
                 .padding(myPadding)
                 .clickable { // open Phone : params string = "id+*mourahi*+idsheet"
-                    PhonesRepository.activeGroupsPhone.value = gPh
+                    PhonesRepository.activeGroupsPhone = gPh
                     viewModelMain.navController
                         .navigate("phonespage")
                 },

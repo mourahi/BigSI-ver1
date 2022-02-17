@@ -1,6 +1,7 @@
 package com.mourahi.bigsi.phones
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,38 +12,34 @@ class PhonesViewModel:ViewModel() {
     val openGroupsDialog = mutableStateOf(false)
     val openCardOperations = mutableStateOf(false)
 
-    val cats = mutableStateOf(listOf<String>())
-    val catsSelected = mutableStateOf(mutableListOf<String>())
-    val subCats = mutableStateOf(listOf<String>())
-    val subCatsSelected = mutableStateOf(mutableListOf<String>())
+    val cats = PhonesRepository.cats
+    val catsSelected =  mutableStateListOf<String>()
+    val subCats =  mutableStateListOf<String>()
+    val subCatsSelected = mutableStateListOf<String>()
 
     val phones = PhonesRepository.allData
+
     val activeGroupsPhone = PhonesRepository.activeGroupsPhone
-    var activePhone = Phone(ecole = "", tel = "", cycle = "")
+    var activePhone = Phone(nom = "", ecole = "", tel = "", cycle = "")
 
      init{
         Log.d("adil","PhonesViewModel: Initialisation phoneRepo")
-         phones.value = listOf()
          viewModelScope.launch {
-             val activeGPH = PhonesRepository.activeGroupsPhone.value
-             PhonesRepository.getAll(activeGPH.link,activeGPH.id)
+             phones.clear()
+             cats.clear()
+             subCats.clear()
              updateCats()
-/*             idSheet.collect {
-                 if(it.isNotEmpty()){ // plus que 1 c'est sur idsheet d'un serveur
-                     val p = it.split("*mourahi*")
-                     Log.d("adil","Mon idsheet = $p personal=${ p[0].toInt()== 0}")
-                   PhonesRepository.getAll(p[1],forServer = p[0].toInt()==0,p[0].toInt())
-                     Log.d("adil","groups depuis page phone = ${activeGroupsPhone.value}")
-                     updateCats()
-                 }
-             }*/
+             val activeGPH = PhonesRepository.activeGroupsPhone
+             PhonesRepository.getAll(activeGPH.link,activeGPH.id)
          }
     }
 
-    private suspend fun updateCats(){
-        Log.d("adil","updateListPhones")
-        cats.value = PhonesRepository.getCats()
-        subCats.value = PhonesRepository.getSubCats()
+    private  fun updateCats(){
+        Log.d("adil","PhonesViewModel updateCats")
+        cats.clear()
+        cats.addAll(PhonesRepository.getCats())
+        subCats.clear()
+        subCats.addAll( PhonesRepository.getSubCats())
     }
 
     
@@ -59,8 +56,15 @@ class PhonesViewModel:ViewModel() {
     }
 
     fun update(ph: Phone){
+        Log.d("adil","update phone")
         viewModelScope.launch {
             PhonesRepository.updatePhone(ph)
+        }
+    }
+
+    fun updateList(phs: List<Phone>){
+        viewModelScope.launch {
+            PhonesRepository.updateList(phs)
         }
     }
 
@@ -68,6 +72,13 @@ class PhonesViewModel:ViewModel() {
         viewModelScope.launch {
             PhonesRepository.deleteAll()
         }
+    }
+
+     fun checkAll(check:Boolean){
+         viewModelScope.launch {
+             phones.forEach { it.isChecked=check }
+             PhonesRepository.checkAll(check,activeGroupsPhone.id)
+         }
     }
 
 }

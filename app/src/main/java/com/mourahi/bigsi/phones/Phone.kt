@@ -1,7 +1,7 @@
 package com.mourahi.bigsi.phones
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Entity(tableName = "phone")
 data class Phone(
@@ -17,17 +17,19 @@ data class Phone(
     @ColumnInfo var geo: String,
     @ColumnInfo var fav: Boolean,
     @ColumnInfo var refgroup: Int,
+    @ColumnInfo var isChecked: Boolean,
+
 ){
     constructor(cycle:String="",commune: String="",gresa: String="",ecole: String="",nom: String="",
     tel: String="",fonction: String="",email: String="",
-                geo: String="",fav: Boolean=false,refgroup: Int=0
-                ):this(0,cycle,commune,gresa,ecole,nom,tel,fonction,email,geo,fav,refgroup)
+                geo: String="",fav: Boolean=false,refgroup: Int=0, isChecked: Boolean =false
+                ):this(0,cycle,commune,gresa,ecole,nom,tel,fonction,email,geo,fav,refgroup,isChecked)
 }
 
 @Dao
 interface PhoneDao{
     @Query("SELECT * FROM phone WHERE refgroup = :refgroup")
-    fun getAll(refgroup: Int): LiveData<List<Phone>>
+    fun getAll(refgroup: Int): Flow<List<Phone>>
 
     @Insert
     suspend fun insert(ph: Phone)
@@ -41,6 +43,12 @@ interface PhoneDao{
 
     @Update
     suspend fun update(ph: Phone)
+
+    @Update
+    suspend fun updateList(phs:List<Phone>)
+
+    @Query("UPDATE phone SET isChecked = :check WHERE refgroup= :refgroup")
+    suspend fun checkAll(check:Boolean,refgroup: Int)
 
     @Query("DELETE FROM phone")
     suspend fun deleteAll()

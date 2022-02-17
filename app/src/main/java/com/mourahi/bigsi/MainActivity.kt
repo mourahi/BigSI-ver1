@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mourahi.bigsi.dynamic.DynamicPage
 import com.mourahi.bigsi.formation.FormationsPage
 import com.mourahi.bigsi.forms.FormsPage
 import com.mourahi.bigsi.groupsphone.GroupsPhonePage
@@ -57,5 +58,6 @@ private fun BigSI() {
         composable("formationspage"){ FormationsPage()}
         composable("detailsphone"){ DetailsPhone()}
         composable("groupscloudpage"){ GroupsPhoneCloudPage() }
+        composable("dynamicpage"){ DynamicPage() }
     }
 }

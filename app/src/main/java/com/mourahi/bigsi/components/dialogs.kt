@@ -25,8 +25,8 @@ fun EditGroupsDialog(
     openGroupsDialog: MutableState<Boolean>,
     onSave: (groupsPhone: GroupsPhone?) -> Unit = {}
 ) {
-    val name = remember { mutableStateOf(groupsPhone.name ?: "") }
-    val region = remember { mutableStateOf(groupsPhone.region ?: "") }
+    val name = remember { mutableStateOf(groupsPhone.name) }
+    val region = remember { mutableStateOf(groupsPhone.region) }
 
     AlertDialog(
         onDismissRequest = { },
@@ -80,9 +80,9 @@ fun EditPhoneDialog(
     title: String,
     viewModel: PhonesViewModel,
 ) {
-    val nom = remember { mutableStateOf(viewModel.activePhone.nom ) }
-    val tel = remember { mutableStateOf(viewModel.activePhone.tel ) }
-    val cat = remember { mutableStateOf(viewModel.activePhone.cycle ) }
+    val nom = remember { mutableStateOf(viewModel.activePhone.nom ) } //nom
+    val tel = remember { mutableStateOf(viewModel.activePhone.tel ) } // tel
+    val catOrEcole = remember { mutableStateOf(viewModel.activePhone.cycle ) } // ecole
 
     AlertDialog(
         onDismissRequest = { },
@@ -100,8 +100,8 @@ fun EditPhoneDialog(
                     label = { Text(text = "الهاتف") }
                 )
                 OutlinedTextField(
-                    value = cat.value,
-                    onValueChange = { cat.value = it },
+                    value = catOrEcole.value,
+                    onValueChange = { catOrEcole.value = it },
                     label = { Text(text = "الفئة") }
                 )
             }
@@ -112,12 +112,12 @@ fun EditPhoneDialog(
                     Log.d("adil", "save ")
                     viewModel.openPhoneDialog.value = false
                     if(viewModel.activePhone.ref == 0){
-                        viewModel.insertPhone( Phone(ecole=nom.value, tel = tel.value, cycle = cat.value, refgroup =viewModel.activeGroupsPhone.value.id  ),)
+                        viewModel.insertPhone( Phone(nom=nom.value, tel = tel.value, ecole = catOrEcole.value, refgroup =viewModel.activeGroupsPhone.id  ))
                     }else {
                         val p = viewModel.activePhone
-                        p.ecole = nom.value
+                        p.nom = nom.value
                         p.tel = tel.value
-                        p.commune=cat.value
+                        p.ecole=catOrEcole.value
                         viewModel.update(viewModel.activePhone)
                     }
                 }) {
