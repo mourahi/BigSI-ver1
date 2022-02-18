@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mourahi.bigsi.groupsphone.GroupsPhone
+import com.mourahi.bigsi.groupsphone.GroupsPhoneRepository
 import kotlinx.coroutines.launch
 
 class PhonesViewModel:ViewModel() {
@@ -19,7 +21,7 @@ class PhonesViewModel:ViewModel() {
 
     val phones = PhonesRepository.allData
 
-    val activeGroupsPhone = PhonesRepository.activeGroupsPhone
+    var activeGroupsPhone = PhonesRepository.activeGroupsPhone
     var activePhone = Phone(nom = "", ecole = "", tel = "", cycle = "")
 
      init{
@@ -59,6 +61,11 @@ class PhonesViewModel:ViewModel() {
         Log.d("adil","update phone")
         viewModelScope.launch {
             PhonesRepository.updatePhone(ph)
+        }
+    }
+    fun updateGroupsPhoneFromPhonePage(ghp:GroupsPhone){
+        viewModelScope.launch {
+            GroupsPhoneRepository.updateGphone(ghp)
         }
     }
 

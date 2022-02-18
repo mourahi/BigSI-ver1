@@ -67,7 +67,7 @@ fun GroupsPhonePageContent(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column {
-                Text(text = gPh.name + " isCheck:${gPh.isChecked}")
+                Text(text = gPh.name)
                 Text(text = gPh.region)
             }
 

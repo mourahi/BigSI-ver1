@@ -24,12 +24,13 @@ import com.mourahi.bigsi.viewModelMain
 @Composable
 fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
     val openedMenu = remember { mutableStateOf(false) }
+    val title = remember { mutableStateOf( phonesViewModel.activeGroupsPhone.name)}
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     MyTextField(
-                        title = phonesViewModel.activeGroupsPhone.name,
+                        title = title.value,
                         label = "par nom ou num",
                         defaultText = "",
                         openEditor = phonesViewModel.openGroupsDialog
@@ -72,7 +73,13 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
            title = "مجموعة الهاتف",
            groupsPhone = phonesViewModel.activeGroupsPhone,
             phonesViewModel.openGroupsDialog
-        )
+        ){
+            if(it != null) {
+                phonesViewModel.activeGroupsPhone = it
+                title.value = it.name
+                phonesViewModel.updateGroupsPhoneFromPhonePage(it)
+            }
+        }
 
         if (phonesViewModel.openPhoneDialog.value) EditPhoneDialog(
            title = "Edit Phone",

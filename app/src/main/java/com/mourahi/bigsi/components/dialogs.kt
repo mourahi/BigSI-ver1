@@ -23,7 +23,7 @@ fun EditGroupsDialog(
     title: String,
     groupsPhone: GroupsPhone,
     openGroupsDialog: MutableState<Boolean>,
-    onSave: (groupsPhone: GroupsPhone?) -> Unit = {}
+    onUpdate: (groupsPhone: GroupsPhone?) -> Unit = {}
 ) {
     val name = remember { mutableStateOf(groupsPhone.name) }
     val region = remember { mutableStateOf(groupsPhone.region) }
@@ -49,10 +49,10 @@ fun EditGroupsDialog(
         confirmButton = { // if gPhone == null ===>  NEW
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Button(onClick = {
-                    Log.d("adil", "save ")
+                    Log.d("adil", "update et pas save hhh ")
                     openGroupsDialog.value = false  //on update et pas  on save
-
-                   onSave(GroupsPhone(name = name.value, region = region.value))
+                    groupsPhone.name = name.value ; groupsPhone.region = region.value
+                   onUpdate(groupsPhone)
                 }) {
                     Text(text = "save")
                 }
