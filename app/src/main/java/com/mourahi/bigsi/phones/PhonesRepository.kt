@@ -11,6 +11,7 @@ object PhonesRepository {
     private val myDao: PhoneDao by lazy { viewModelMain.myDB.myPhoneDao()}
     val allData = mutableStateListOf<Phone>()
     var activeGroupsPhone =GroupsPhone("","")
+    var activePhone = Phone(nom = "", ecole = "", tel = "", cycle = "")
 
     val cats = mutableStateListOf<String>()
 

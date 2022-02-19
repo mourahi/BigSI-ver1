@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.mourahi.bigsi.phones.PhonesRepository
 import com.mourahi.bigsi.ui.theme.myPadding
 import com.mourahi.bigsi.viewModelMain
 
@@ -54,11 +55,11 @@ fun DetailsPhone(){
 
             }//fin column right
             Column(Modifier.align(Alignment.Center)) {
-                Text("ثا. اع احمد الطيب بنهيمة")
-                Text("0666667788")
-                Text("احمد سبا")
-                Text("جماعة اسفي")
-                Text("كود كريزا")
+                Text(PhonesRepository.activePhone.ecole)
+                Text(PhonesRepository.activePhone.tel)
+                Text(PhonesRepository.activePhone.nom)
+                Text(PhonesRepository.activePhone.commune)
+                Text(PhonesRepository.activePhone.gresa)
             }
         }//fin box
     }

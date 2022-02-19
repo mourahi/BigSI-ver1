@@ -30,19 +30,21 @@ fun PhonePageContent(
     phones: List<Phone>,
     onCardOperations:MutableState<Boolean>,
     onEdit: (ph:Phone) -> Unit,
-    onUpdate: (ph: Phone) -> Unit
+    onUpdate: (ph: Phone) -> Unit,
+    onSelect:(ph:Phone) ->Unit
     ) {
     val colla = remember{ mutableStateOf(-1) }
     LazyColumn{
             itemsIndexed(phones){index,item ->
-                CardPhone(item,onCardOperations, onEdit, onUpdate,index,colla)
+                CardPhone(item,onCardOperations, onEdit, onUpdate,index,colla, onSelect)
             }
     }
 }
 
 @Composable
  fun CardPhone(ph: Phone, oncardOperation: MutableState<Boolean>,
-               onEdit:(ph:Phone)->Unit, onUpdate: (ph: Phone) -> Unit,index:Int,colla:MutableState<Int>)
+               onEdit:(ph:Phone)->Unit, onUpdate: (ph: Phone) -> Unit,
+               index:Int,colla:MutableState<Int>,onSelect:(ph:Phone)->Unit)
  {
     Log.d("adil","CardPHone: phone=$ph")
     Card(
@@ -124,6 +126,7 @@ fun PhonePageContent(
                         )
                     }
                     IconButton(onClick = {  Log.d("adil","j'OUVRE PLUS")
+                        onSelect(ph)
                         viewModelMain.navController.navigate("detailsphone")
                     }) {
                         Icon(Icons.Filled.PlusOne, contentDescription = "Plus", tint = Color.Black)

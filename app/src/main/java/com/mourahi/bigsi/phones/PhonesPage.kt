@@ -118,8 +118,10 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                     phonesViewModel.openPhoneDialog.value = true
                 },
                 onUpdate = {
-                    phonesViewModel.activePhone = it
                     phonesViewModel.update(it)
+                },
+                onSelect = {
+                    phonesViewModel.activePhone(it)
                 }
             )
         }

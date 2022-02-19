@@ -22,7 +22,7 @@ class PhonesViewModel:ViewModel() {
     val phones = PhonesRepository.allData
 
     var activeGroupsPhone = PhonesRepository.activeGroupsPhone
-    var activePhone = Phone(nom = "", ecole = "", tel = "", cycle = "")
+    var activePhone = PhonesRepository.activePhone
 
      init{
         Log.d("adil","PhonesViewModel: Initialisation phoneRepo")
@@ -44,6 +44,9 @@ class PhonesViewModel:ViewModel() {
         subCats.addAll( PhonesRepository.getSubCats())
     }
 
+    fun activePhone(ph:Phone){
+        PhonesRepository.activePhone = ph
+    }
     
     fun insertPhone(ph: Phone){
         viewModelScope.launch{
@@ -59,6 +62,7 @@ class PhonesViewModel:ViewModel() {
 
     fun update(ph: Phone){
         Log.d("adil","update phone")
+        PhonesRepository.activePhone = ph
         viewModelScope.launch {
             PhonesRepository.updatePhone(ph)
         }
