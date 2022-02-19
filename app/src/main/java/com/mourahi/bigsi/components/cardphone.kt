@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mourahi.bigsi.phones.Phone
 import com.mourahi.bigsi.ui.theme.myPadding
+import com.mourahi.bigsi.viewModelMain
 
 
 @Composable
@@ -36,8 +37,6 @@ fun PhonePageContent(
             itemsIndexed(phones){index,item ->
                 CardPhone(item,onCardOperations, onEdit, onUpdate,index,colla)
             }
-
-
     }
 }
 
@@ -55,28 +54,25 @@ fun PhonePageContent(
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(myPadding)){
+                .padding(myPadding))
+        {
             Row(
-                Modifier
-                    .fillMaxSize()
-                    .clickable {
-                        colla.value = if(colla.value == index) -1 else index
-                    },
+                Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { viewModelMain.call(ph.tel) }) {
                     Icon(Icons.Filled.Phone, contentDescription = "PHone", tint = Color.Red)
                 }
 
-                Column {
-                    Text(text = ph.ecole + "spand =${ colla.value == index}")
+                Column(Modifier.clickable {
+                    colla.value = if(colla.value == index) -1 else index
+                }) {
+                    Text(text = ph.ecole)
                     Text(text = ph.nom)
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-
-
                     MyToggleIcon(
                         selectFirst = false, // todo:a completer
                         icons = listOf(Icons.Filled.Edit)
@@ -85,9 +81,6 @@ fun PhonePageContent(
                         onEdit(ph)
                         return@MyToggleIcon ""
                     }
-
-
-
                     MyToggleIcon(
                         selectFirst = ph.fav,
                         icons = listOf(Icons.Filled.Favorite, Icons.Outlined.FavoriteBorder)
@@ -115,17 +108,24 @@ fun PhonePageContent(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 )
                 {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        viewModelMain.sendSMS(ph.tel)
+                    }) {
                         Icon(Icons.Filled.Send, contentDescription = "send", tint = Color.Black)
                     }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        Log.d("adil","je send MAIL")
+                        viewModelMain.sendMail(ph.email)
+                    }) {
                         Icon(Icons.Filled.Mail, contentDescription = "mail", tint = Color.Black)
                     }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {  Log.d("adil","je MAP")  }) {
                         Icon(Icons.Filled.MapsHomeWork, contentDescription = "Map", tint = Color.Black
                         )
                     }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {  Log.d("adil","j'OUVRE PLUS")
+                        viewModelMain.navController.navigate("detailsphone")
+                    }) {
                         Icon(Icons.Filled.PlusOne, contentDescription = "Plus", tint = Color.Black)
                     }
                 }

@@ -74,6 +74,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
 
+    implementation "com.google.accompanist:accompanist-permissions:0.24.2-alpha"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
