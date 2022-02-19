@@ -24,8 +24,8 @@ fun GroupsPhoneCloudPage(groupsPhoneCloudViewModel: GroupsPhoneCloudViewModel= v
         topBar = {
             TopAppBar(
                 title = { MyTextField(
-                    title = "Cloud",
-                    label = "search dp",
+                    title = "قاعدة المجموعات الرسمية",
+                    label = "البحث",
                     defaultText = ""
                 ){
                     Log.d("adil","valeur chercher = $it")

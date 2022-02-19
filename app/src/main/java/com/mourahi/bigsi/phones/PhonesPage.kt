@@ -8,10 +8,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +21,7 @@ import com.mourahi.bigsi.viewModelMain
 @Composable
 fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
     val openedMenu = remember { mutableStateOf(false) }
+    val openedFilter = remember { mutableStateOf(false) }
     val title = remember { mutableStateOf( phonesViewModel.activeGroupsPhone.name)}
     Scaffold(
         topBar = {
@@ -47,9 +45,12 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = {
-                        openedMenu.value = true
-                    }) {
+                    IconButton(onClick = { openedFilter.value = !openedFilter.value}) {
+                        Icon(if(openedFilter.value) Icons.Default.AllOut else  Icons.Filled.FilterAlt, contentDescription = "filter", tint = Color.White)
+                    }
+
+                    IconButton(onClick = { openedMenu.value = true })
+                    {
                         Icon(
                             Icons.Default.MoreVert,
                             contentDescription = "menu",
@@ -89,16 +90,20 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
         //Affichage
         Column(Modifier.fillMaxWidth()) {
             //travial sur CAT
-            CatFilter(phonesViewModel.cats,
-                phonesViewModel.catsSelected, // Affichage
-                ) {
-                Log.d("adil","Fresultat =${it}")
-            }
-            CatFilter(phonesViewModel.subCats,
-                phonesViewModel.subCatsSelected, // Affichage
-            ) {
-                Log.d("adil","FsubCatResultat =${it}")
-            }
+         if(openedFilter.value) {
+             CatFilter(
+                 phonesViewModel.cats,
+                 phonesViewModel.catsSelected, // Affichage
+             ) {
+                 Log.d("adil", "Fresultat =${it}")
+             }
+             CatFilter(
+                 phonesViewModel.subCats,
+                 phonesViewModel.subCatsSelected, // Affichage
+             ) {
+                 Log.d("adil", "FsubCatResultat =${it}")
+             }
+         }
             // FIN CATFILTER
 
             if (phonesViewModel.openCardOperations.value) CardOperationsPhone(

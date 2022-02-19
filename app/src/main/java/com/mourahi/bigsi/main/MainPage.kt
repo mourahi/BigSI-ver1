@@ -1,5 +1,6 @@
 package com.mourahi.bigsi.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,13 +12,18 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mourahi.bigsi.R
 import com.mourahi.bigsi.ui.theme.myPadding
 import com.mourahi.bigsi.viewModelMain
 
@@ -25,7 +31,6 @@ import com.mourahi.bigsi.viewModelMain
 
 @Composable
 fun MainPage(){
-
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
             item {
                 Text(text = "BigSI", fontSize = 30.sp)
@@ -96,7 +101,10 @@ private fun MainBox() {
                         viewModelMain.navController.navigate("groupsphonepage")
                     }
             ){
-                Text(text = "GroupsPhone", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+               Image(painter = painterResource(id= R.drawable.bg) ,
+                   contentDescription ="", contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize() )
+                Text(text = "التواصل", fontSize = 30.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+                Icon(Icons.Filled.Phone, contentDescription = "", tint = Color.Yellow, modifier = Modifier.size(40.dp))
             }
             //News -------------------------------------------
             Box(
@@ -108,7 +116,10 @@ private fun MainBox() {
                         viewModelMain.navController.navigate("newspage")
                     }
             ){
-                Text(text = "News", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+                Image(painter = painterResource(id= R.drawable.news) ,
+                    contentDescription ="", contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize() )
+                Text(text = "المستجدات", fontSize = 30.sp, modifier = Modifier.align(Alignment.Center), color = Color.Red)
+                Icon(Icons.Filled.Info, contentDescription = "", tint = Color.Yellow, modifier = Modifier.size(40.dp))
             }
         }
         Row(

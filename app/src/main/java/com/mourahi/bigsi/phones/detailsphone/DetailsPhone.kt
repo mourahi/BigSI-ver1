@@ -58,6 +58,7 @@ fun DetailsPhone(){
                 Text(PhonesRepository.activePhone.ecole)
                 Text(PhonesRepository.activePhone.tel)
                 Text(PhonesRepository.activePhone.nom)
+                Text(PhonesRepository.activePhone.email)
                 Text(PhonesRepository.activePhone.commune)
                 Text(PhonesRepository.activePhone.gresa)
             }

@@ -27,8 +27,8 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
         topBar = {
             TopAppBar(
                 title = { MyTextField(
-                    title = "Groups phone",
-                    label = "search dp",
+                    title = "مجموعة الهواتف",
+                    label = "البحث",
                 defaultText = ""
                     ){
                     Log.d("adil","valeur chercher = $it")
