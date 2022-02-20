@@ -76,7 +76,7 @@ fun PhonePageContent(
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    MyToggleIcon(
+                  if(ph.gresa.isEmpty())  MyToggleIcon(
                         selectFirst = false, // todo:a completer
                         icons = listOf(Icons.Filled.Edit)
                     ) {
