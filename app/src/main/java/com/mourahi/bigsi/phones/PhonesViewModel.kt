@@ -34,11 +34,18 @@ class PhonesViewModel:ViewModel() {
          }
     }
 
-    fun filterByCatsAndSubCats(sCats:List<String>,type:String="cats"){
+    fun filterByCats(sCats:List<String>){
         viewModelScope.launch {
        PhonesRepository.filterByCatsAndSubCats(sCats)
         }
     }
+    fun filterBySubCats(subCats:List<String>){
+        viewModelScope.launch {
+            PhonesRepository.filterBySubCats(catsSelected, subCats)
+        }
+    }
+
+
 
     fun activePhone(ph:Phone){
         PhonesRepository.activePhone = ph

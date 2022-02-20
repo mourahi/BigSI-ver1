@@ -96,16 +96,14 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                  phonesViewModel.catsSelected, // Affichage
              ) {
                  Log.d("adil", "Fresultat =${it.toList()}")
-                 phonesViewModel.filterByCatsAndSubCats(it.toList(),"cats")
+                 phonesViewModel.filterByCats(it.toList())
              }
           if(phonesViewModel.subCats.size>1)   CatFilter(
                  phonesViewModel.subCats,
                  phonesViewModel.subCatsSelected, // Affichage
              ) {
                  Log.d("adil", "FsubCatResultat =${it}")
-                 phonesViewModel.subCatsSelected.clear()
-                 phonesViewModel.subCatsSelected.addAll(it)
-                 //phonesViewModel.filterByCatsAndSubCats(it,"subcats")
+                 phonesViewModel.filterBySubCats(it)
              }
          }
             // FIN CATFILTER

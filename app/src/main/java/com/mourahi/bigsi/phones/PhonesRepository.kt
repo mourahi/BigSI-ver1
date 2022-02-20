@@ -25,7 +25,7 @@ object PhonesRepository {
         if(refGroup == 0 || forServer){
             Log.d("adil","PHoneRepsoitory:getAll from  phonesFromServer")
             allData.clear();allDataInitial.clear()
-            allData.addAll( phonesFromServer(idSheet,refGroup))
+            allData.addAll(phonesFromServer(idSheet,refGroup))
             initCatsAnsSubCats()
         }else{
             myDao.getAll(refGroup).collect {
@@ -43,7 +43,7 @@ object PhonesRepository {
         if (a.isNotEmpty()) {
             repeat(a.size) {
                 val d = a[it]
-                re.add(Phone(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7], d[8] ,false,refGroup))
+            if(d[0]!="cycle")  re.add(Phone(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7], d[8] ,false,refGroup))
             }
         }
         return re
@@ -116,6 +116,12 @@ private fun initCatsAnsSubCats(){
         if(t.isNotEmpty()) allData.addAll(t) else allData.addAll(allDataInitial)
         updateSubCats(sCats)
     }
+
+    suspend fun filterBySubCats(sCats:List<String>, subCats:List<String>){
+        val t = allData.filter { subCats.contains(it.commune) }.toList()
+        if(t.isEmpty()) filterByCatsAndSubCats(sCats) else allData.clear();allData.addAll(t)
+    }
+
 
     private fun updateSubCats(sCats:List<String>) {
         subCats.clear()

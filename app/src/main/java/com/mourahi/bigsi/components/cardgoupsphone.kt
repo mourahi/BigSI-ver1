@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.sp
 import com.mourahi.bigsi.groupsphone.GroupsPhone
 import com.mourahi.bigsi.phones.PhonesRepository
 import com.mourahi.bigsi.ui.theme.myPadding
@@ -67,7 +68,7 @@ fun GroupsPhonePageContent(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column {
-                Text(text = gPh.name)
+                Text(text = gPh.name,  fontSize = 20.sp)
                 Text(text = gPh.region)
             }
 

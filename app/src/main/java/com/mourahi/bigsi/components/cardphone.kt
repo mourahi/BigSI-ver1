@@ -20,6 +20,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import com.mourahi.bigsi.phones.Phone
 import com.mourahi.bigsi.ui.theme.myPadding
 import com.mourahi.bigsi.viewModelMain
@@ -70,7 +71,7 @@ fun PhonePageContent(
                 Column(Modifier.clickable {
                     colla.value = if(colla.value == index) -1 else index
                 }) {
-                    Text(text = ph.ecole)
+                    Text(text = ph.ecole, color = Color.Blue, fontSize = 18.sp)
                     Text(text = ph.nom)
                 }
 
