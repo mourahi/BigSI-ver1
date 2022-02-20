@@ -90,7 +90,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
         //Affichage
         Column(Modifier.fillMaxWidth()) {
             //travial sur CAT
-         if(openedFilter.value) {
+         if(openedFilter.value &&  phonesViewModel.cats.size>1) {
              CatFilter(
                  phonesViewModel.cats,
                  phonesViewModel.catsSelected, // Affichage
@@ -98,7 +98,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                  Log.d("adil", "Fresultat =${it.toList()}")
                  phonesViewModel.filterByCatsAndSubCats(it.toList(),"cats")
              }
-             CatFilter(
+          if(phonesViewModel.subCats.size>1)   CatFilter(
                  phonesViewModel.subCats,
                  phonesViewModel.subCatsSelected, // Affichage
              ) {

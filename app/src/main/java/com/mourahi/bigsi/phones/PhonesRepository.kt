@@ -9,32 +9,33 @@ import kotlinx.coroutines.flow.collect
 
 object PhonesRepository {
     private val myDao: PhoneDao by lazy { viewModelMain.myDB.myPhoneDao()}
+
     val allData = mutableStateListOf<Phone>()
+    val allDataInitial = mutableStateListOf<Phone>()
+
     var activeGroupsPhone =GroupsPhone("","")
     var activePhone = Phone(nom = "", ecole = "", tel = "", cycle = "")
 
     val cats = mutableStateListOf<String>()
-
+    val subCats = mutableStateListOf<String>()
 
     suspend fun getAll(idSheet: String,refGroup: Int,forServer:Boolean = false){
         Log.d("adil","demarrage Phone idsheet = $idSheet refGroup=$refGroup")
 
         if(refGroup == 0 || forServer){
             Log.d("adil","PHoneRepsoitory:getAll from  phonesFromServer")
-            allData.clear()
+            allData.clear();allDataInitial.clear()
             allData.addAll( phonesFromServer(idSheet,refGroup))
             initCatsAnsSubCats()
         }else{
             myDao.getAll(refGroup).collect {
-                allData.clear()
+                allData.clear();allDataInitial.clear()
                 allData.addAll(it)
                 Log.d("adil","je suis la ${allData.filter { a->a.isChecked}.size}")
                 initCatsAnsSubCats()
             }
         }
-
     }
-
 
     private suspend fun phonesFromServer(idSheet:String,refGroup: Int): List<Phone> {
         val a = ApiSheet.request(id = idSheet)
@@ -46,10 +47,6 @@ object PhonesRepository {
             }
         }
         return re
-    }
-
-    suspend fun getPhonesByRefGroup(refGroup: Int):List<Phone>{
-     return   myDao.getByRefGroup(refGroup)
     }
 
     suspend fun insertListPhonesFromGroupsPhone(idSheet:String,refGroup:Int){
@@ -104,20 +101,25 @@ object PhonesRepository {
         myDao.deleteAll()
     }
     
-    
-    
-    
-    
 // categories
 private fun initCatsAnsSubCats(){
     cats.clear()
-    Log.d("adil","despuis repo : alldata = $allData")
     cats.addAll(allData.map { it.cycle }.toSet())
     }
 
+    suspend fun filterByCatsAndSubCats(sCats:List<String>){
+        if(allDataInitial.isNullOrEmpty()){
+            allDataInitial.addAll( myDao.getByRefGroup(activeGroupsPhone.id))
+        }
+        allData.clear()
+        val t = allDataInitial.filter { sCats.contains(it.cycle)}.toList()
+        if(t.isNotEmpty()) allData.addAll(t) else allData.addAll(allDataInitial)
+        updateSubCats(sCats)
+    }
 
-    fun getSubCats(): List<String> {
-        return listOf("safi", "jamma", "seb", "hrara", "oulad salman", "moulbargue", "ayer")
+    private fun updateSubCats(sCats:List<String>) {
+        subCats.clear()
+      if(sCats.isNotEmpty())  subCats.addAll(allData.map { it.commune }.toSet())
     }
 
 }

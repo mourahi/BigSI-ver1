@@ -16,11 +16,11 @@ class PhonesViewModel:ViewModel() {
 
     val cats = PhonesRepository.cats
     val catsSelected =  mutableStateListOf<String>()
-    val subCats =  mutableStateListOf<String>()
+    val subCats =  PhonesRepository.subCats
     val subCatsSelected = mutableStateListOf<String>()
 
     val phones = PhonesRepository.allData
-
+    val phonesInitial = PhonesRepository.allDataInitial
 
     var activeGroupsPhone = PhonesRepository.activeGroupsPhone
     var activePhone = PhonesRepository.activePhone
@@ -28,31 +28,16 @@ class PhonesViewModel:ViewModel() {
      init{
         Log.d("adil","PhonesViewModel: Initialisation phoneRepo")
          viewModelScope.launch {
-             phones.clear()
-             subCats.clear()
+             subCats.clear();cats.clear();phones.clear()
              val activeGPH = PhonesRepository.activeGroupsPhone
              PhonesRepository.getAll(activeGPH.link,activeGPH.id)
-             updateCats()
          }
     }
 
-    fun filterByCatsAndSubCats(cats:List<String>,type:String="cats"){
+    fun filterByCatsAndSubCats(sCats:List<String>,type:String="cats"){
         viewModelScope.launch {
-            Log.d("adil","PhonesRepository.activeGroupsPhone.id=${PhonesRepository.activeGroupsPhone.id}")
-            val tmp =  PhonesRepository.getPhonesByRefGroup(PhonesRepository.activeGroupsPhone.id)
-           catsSelected.clear(); catsSelected.addAll(cats)
-            Log.d("adil","catselect = ${catsSelected.toList()} cats=${cats.toList()}")
-            phones.clear(); val t = tmp.filter { cats.contains(it.cycle)}.toList();phones.addAll(t)
+       PhonesRepository.filterByCatsAndSubCats(sCats)
         }
-
-    }
-
-    private  fun updateCats(){
-        Log.d("adil","PhonesViewModel updateCats")
-        cats.clear()
-        cats.addAll(PhonesRepository.cats)
-        subCats.clear()
-        subCats.addAll( PhonesRepository.getSubCats())
     }
 
     fun activePhone(ph:Phone){
