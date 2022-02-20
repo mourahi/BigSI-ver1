@@ -28,9 +28,9 @@ import com.mourahi.bigsi.ui.theme.myPadding
 fun CatFilter(
     cats: List<String>,
     catsSelected: MutableList<String>,
-    fResult: (catsSelected: MutableList<String>) -> Int
+    fResult: (catsSelected: MutableList<String>) -> Unit
 ) {
-    Log.d("adil", "Start CatFilter")
+    Log.d("adil", "Start CatFilter cats.size = ${cats.size}")
     val deselectAll = remember { mutableStateOf(false) }
     val f = fun(cat: String) {
         if (catsSelected.contains(cat)) catsSelected.remove(cat)

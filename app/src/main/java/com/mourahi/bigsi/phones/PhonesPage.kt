@@ -46,7 +46,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                 },
                 actions = {
                     IconButton(onClick = { openedFilter.value = !openedFilter.value}) {
-                        Icon(if(openedFilter.value) Icons.Default.AllOut else  Icons.Filled.FilterAlt, contentDescription = "filter", tint = Color.White)
+                        Icon(if(openedFilter.value) Icons.Default.Filter else  Icons.Filled.FilterAlt, contentDescription = "filter", tint = Color.White)
                     }
 
                     IconButton(onClick = { openedMenu.value = true })
@@ -95,13 +95,17 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                  phonesViewModel.cats,
                  phonesViewModel.catsSelected, // Affichage
              ) {
-                 Log.d("adil", "Fresultat =${it}")
+                 Log.d("adil", "Fresultat =${it.toList()}")
+                 phonesViewModel.filterByCatsAndSubCats(it.toList(),"cats")
              }
              CatFilter(
                  phonesViewModel.subCats,
                  phonesViewModel.subCatsSelected, // Affichage
              ) {
                  Log.d("adil", "FsubCatResultat =${it}")
+                 phonesViewModel.subCatsSelected.clear()
+                 phonesViewModel.subCatsSelected.addAll(it)
+                 //phonesViewModel.filterByCatsAndSubCats(it,"subcats")
              }
          }
             // FIN CATFILTER

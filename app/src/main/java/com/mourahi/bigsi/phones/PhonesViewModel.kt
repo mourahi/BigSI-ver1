@@ -21,6 +21,7 @@ class PhonesViewModel:ViewModel() {
 
     val phones = PhonesRepository.allData
 
+
     var activeGroupsPhone = PhonesRepository.activeGroupsPhone
     var activePhone = PhonesRepository.activePhone
 
@@ -28,18 +29,28 @@ class PhonesViewModel:ViewModel() {
         Log.d("adil","PhonesViewModel: Initialisation phoneRepo")
          viewModelScope.launch {
              phones.clear()
-             cats.clear()
              subCats.clear()
-             updateCats()
              val activeGPH = PhonesRepository.activeGroupsPhone
              PhonesRepository.getAll(activeGPH.link,activeGPH.id)
+             updateCats()
          }
+    }
+
+    fun filterByCatsAndSubCats(cats:List<String>,type:String="cats"){
+        viewModelScope.launch {
+            Log.d("adil","PhonesRepository.activeGroupsPhone.id=${PhonesRepository.activeGroupsPhone.id}")
+            val tmp =  PhonesRepository.getPhonesByRefGroup(PhonesRepository.activeGroupsPhone.id)
+           catsSelected.clear(); catsSelected.addAll(cats)
+            Log.d("adil","catselect = ${catsSelected.toList()} cats=${cats.toList()}")
+            phones.clear(); val t = tmp.filter { cats.contains(it.cycle)}.toList();phones.addAll(t)
+        }
+
     }
 
     private  fun updateCats(){
         Log.d("adil","PhonesViewModel updateCats")
         cats.clear()
-        cats.addAll(PhonesRepository.getCats())
+        cats.addAll(PhonesRepository.cats)
         subCats.clear()
         subCats.addAll( PhonesRepository.getSubCats())
     }

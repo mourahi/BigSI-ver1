@@ -23,13 +23,16 @@ object PhonesRepository {
             Log.d("adil","PHoneRepsoitory:getAll from  phonesFromServer")
             allData.clear()
             allData.addAll( phonesFromServer(idSheet,refGroup))
+            initCatsAnsSubCats()
         }else{
             myDao.getAll(refGroup).collect {
                 allData.clear()
                 allData.addAll(it)
                 Log.d("adil","je suis la ${allData.filter { a->a.isChecked}.size}")
+                initCatsAnsSubCats()
             }
         }
+
     }
 
 
@@ -43,6 +46,10 @@ object PhonesRepository {
             }
         }
         return re
+    }
+
+    suspend fun getPhonesByRefGroup(refGroup: Int):List<Phone>{
+     return   myDao.getByRefGroup(refGroup)
     }
 
     suspend fun insertListPhonesFromGroupsPhone(idSheet:String,refGroup:Int){
@@ -102,9 +109,12 @@ object PhonesRepository {
     
     
 // categories
-    fun getCats(): List<String> {
-        return listOf("Direction", "Lycee", "College", "Primaire", "Inspecteur", "Orientation")
+private fun initCatsAnsSubCats(){
+    cats.clear()
+    Log.d("adil","despuis repo : alldata = $allData")
+    cats.addAll(allData.map { it.cycle }.toSet())
     }
+
 
     fun getSubCats(): List<String> {
         return listOf("safi", "jamma", "seb", "hrara", "oulad salman", "moulbargue", "ayer")

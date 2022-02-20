@@ -31,6 +31,9 @@ interface PhoneDao{
     @Query("SELECT * FROM phone WHERE refgroup = :refgroup")
     fun getAll(refgroup: Int): Flow<List<Phone>>
 
+    @Query ("SELECT * FROM phone WHERE refgroup = :refgroup")
+    suspend fun getByRefGroup(refgroup: Int):List<Phone>
+
     @Insert
     suspend fun insert(ph: Phone)
 
