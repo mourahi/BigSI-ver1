@@ -47,7 +47,7 @@ fun PhonePageContent(
                onEdit:(ph:Phone)->Unit, onUpdate: (ph: Phone) -> Unit,
                index:Int,colla:MutableState<Int>,onSelect:(ph:Phone)->Unit)
  {
-    Log.d("adil","CardPHone: phone=$ph")
+    //Log.d("adil","CardPHone: phone=$ph")
     Card(
         modifier = Modifier
             .fillMaxWidth()

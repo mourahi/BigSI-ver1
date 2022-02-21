@@ -11,7 +11,7 @@ object PhonesRepository {
     private val myDao: PhoneDao by lazy { viewModelMain.myDB.myPhoneDao()}
 
     val allData = mutableStateListOf<Phone>()
-    val allDataInitial = mutableStateListOf<Phone>()
+    private val allDataInitial = mutableStateListOf<Phone>()
 
     var activeGroupsPhone =GroupsPhone("","")
     var activePhone = Phone(nom = "", ecole = "", tel = "", cycle = "")
@@ -26,13 +26,15 @@ object PhonesRepository {
             Log.d("adil","PHoneRepsoitory:getAll from  phonesFromServer")
             allData.clear();allDataInitial.clear()
             allData.addAll(phonesFromServer(idSheet,refGroup))
-            initCatsAnsSubCats()
+            allDataInitial.addAll(allData.toList())
+            initialisation()
         }else{
             myDao.getAll(refGroup).collect {
                 allData.clear();allDataInitial.clear()
                 allData.addAll(it)
-                Log.d("adil","je suis la ${allData.filter { a->a.isChecked}.size}")
-                initCatsAnsSubCats()
+              //  Log.d("adil","je suis la ${allData.filter { a->a.isChecked}.size}")
+                allDataInitial.addAll(allData.toList())
+                initialisation()
             }
         }
     }
@@ -102,30 +104,23 @@ object PhonesRepository {
     }
     
 // categories
-private fun initCatsAnsSubCats(){
-    cats.clear()
-    cats.addAll(allData.map { it.cycle }.toSet())
+private fun initialisation(){
+    cats.clear() ; subCats.clear()
+    cats.addAll(allDataInitial.map { it.cycle }.toSet())
     }
 
-    suspend fun filterByCatsAndSubCats(sCats:List<String>){
-        if(allDataInitial.isNullOrEmpty()){
-            allDataInitial.addAll( myDao.getByRefGroup(activeGroupsPhone.id))
+     fun filterByCatsAndSubCats(sCats:List<String>,subC: List<String>){
+         if(sCats.isEmpty()) {
+             subCats.clear()
+         }
+        if(allDataInitial.isNotEmpty()){
+           var t =if(sCats.isNotEmpty())  allDataInitial.filter { sCats.contains(it.cycle) } else allDataInitial
+            t= if(subC.isNotEmpty() && sCats.isNotEmpty()) t.filter { subC.contains(it.commune) } else t
+            allData.clear()
+            allData.addAll(t)
+            subCats.clear()
+            if(sCats.isNotEmpty())  subCats.addAll(t.map { it.commune }.filter { it.isNotEmpty() }.toSet())
         }
-        allData.clear()
-        val t = allDataInitial.filter { sCats.contains(it.cycle)}.toList()
-        if(t.isNotEmpty()) allData.addAll(t) else allData.addAll(allDataInitial)
-        updateSubCats(sCats)
-    }
-
-    suspend fun filterBySubCats(sCats:List<String>, subCats:List<String>){
-        val t = allData.filter { subCats.contains(it.commune) }.toList()
-        if(t.isEmpty()) filterByCatsAndSubCats(sCats) else allData.clear();allData.addAll(t)
-    }
-
-
-    private fun updateSubCats(sCats:List<String>) {
-        subCats.clear()
-      if(sCats.isNotEmpty())  subCats.addAll(allData.map { it.commune }.toSet())
     }
 
 }

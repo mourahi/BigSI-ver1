@@ -15,15 +15,15 @@ class PhonesViewModel:ViewModel() {
     val openCardOperations = mutableStateOf(false)
 
     val cats = PhonesRepository.cats
-    val catsSelected =  mutableStateListOf<String>()
     val subCats =  PhonesRepository.subCats
+
+    val catsSelected =  mutableStateListOf<String>()
     val subCatsSelected = mutableStateListOf<String>()
 
     val phones = PhonesRepository.allData
-    val phonesInitial = PhonesRepository.allDataInitial
 
     var activeGroupsPhone = PhonesRepository.activeGroupsPhone
-    var activePhone = PhonesRepository.activePhone
+    val activePhone = PhonesRepository.activePhone
 
      init{
         Log.d("adil","PhonesViewModel: Initialisation phoneRepo")
@@ -35,17 +35,12 @@ class PhonesViewModel:ViewModel() {
     }
 
     fun filterByCats(sCats:List<String>){
-        viewModelScope.launch {
-       PhonesRepository.filterByCatsAndSubCats(sCats)
-        }
+        if(sCats.isEmpty()) subCatsSelected.clear()
+       PhonesRepository.filterByCatsAndSubCats(sCats,subCatsSelected)
     }
     fun filterBySubCats(subCats:List<String>){
-        viewModelScope.launch {
-            PhonesRepository.filterBySubCats(catsSelected, subCats)
-        }
+            PhonesRepository.filterByCatsAndSubCats(catsSelected, subCats)
     }
-
-
 
     fun activePhone(ph:Phone){
         PhonesRepository.activePhone = ph

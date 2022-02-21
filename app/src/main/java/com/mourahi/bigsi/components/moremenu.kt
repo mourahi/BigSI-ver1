@@ -6,6 +6,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -36,6 +37,6 @@ fun MoreMenu(openedMenu: MutableState<Boolean>, mapMenu: List<ItemMenu>) {
 data class ItemMenu(
     val title: String,
     val icon: ImageVector,
-    val state: MutableState<Boolean>,
+    val state: MutableState<Boolean> = mutableStateOf(false),
     val operation: (() -> Unit)? = null
 )

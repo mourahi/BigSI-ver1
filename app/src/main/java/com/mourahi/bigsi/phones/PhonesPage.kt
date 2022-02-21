@@ -3,25 +3,25 @@ package com.mourahi.bigsi.phones
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mourahi.bigsi.R
 import com.mourahi.bigsi.components.*
 import com.mourahi.bigsi.viewModelMain
 
 @Composable
 fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
     val openedMenu = remember { mutableStateOf(false) }
-    val openedFilter = remember { mutableStateOf(false) }
+    val openedFilter = rememberSaveable{ mutableStateOf(false) }
     val title = remember { mutableStateOf( phonesViewModel.activeGroupsPhone.name)}
     Scaffold(
         topBar = {
@@ -46,7 +46,8 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                 },
                 actions = {
                     IconButton(onClick = { openedFilter.value = !openedFilter.value}) {
-                        Icon(if(openedFilter.value) Icons.Default.Filter else  Icons.Filled.FilterAlt, contentDescription = "filter", tint = Color.White)
+                        if(!openedFilter.value)  Icon( Icons.Filled.FilterAlt, contentDescription = "filter", tint = Color.White)
+                        else Icon(painter = painterResource(id = R.drawable.filter_alt_off), contentDescription = null, tint = Color.White)
                     }
 
                     IconButton(onClick = { openedMenu.value = true })
@@ -59,11 +60,15 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                     }
                 }
             )
+        },
+        floatingActionButton = { FloatingActionButton(onClick = { phonesViewModel.openPhoneDialog.value = true }) {
+            Icon(Icons.Filled.AddBox, contentDescription = "add")
         }
+        },
     ) {
         val mapMenu = listOf(
             ItemMenu("هاتف",Icons.Default.Add, phonesViewModel.openPhoneDialog){
-            phonesViewModel.activePhone = Phone("","")
+                phonesViewModel.activePhone( Phone("",""))
             },
             ItemMenu("تدبير", Icons.Default.Check, phonesViewModel.openCardOperations),
         )
@@ -98,12 +103,12 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                  Log.d("adil", "Fresultat =${it.toList()}")
                  phonesViewModel.filterByCats(it.toList())
              }
-          if(phonesViewModel.subCats.size>1)   CatFilter(
+          if(phonesViewModel.subCats.size>0)   CatFilter(
                  phonesViewModel.subCats,
                  phonesViewModel.subCatsSelected, // Affichage
              ) {
                  Log.d("adil", "FsubCatResultat =${it}")
-                 phonesViewModel.filterBySubCats(it)
+                 phonesViewModel.filterBySubCats(it.toList())
              }
          }
             // FIN CATFILTER
@@ -121,7 +126,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                 phones = phonesViewModel.phones,
                 onCardOperations = phonesViewModel.openCardOperations,
                 onEdit = {
-                    phonesViewModel.activePhone = it
+                    phonesViewModel.activePhone(it)
                     phonesViewModel.openPhoneDialog.value = true
                 },
                 onUpdate = {

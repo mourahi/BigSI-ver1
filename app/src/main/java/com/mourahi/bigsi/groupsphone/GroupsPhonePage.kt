@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
@@ -52,7 +49,12 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                     }
                 },
             )
+        },
+        floatingActionButton = { FloatingActionButton(onClick = { viewModelGPhone.openGroupsDialog.value = true }) {
+            Icon(Icons.Filled.AddBox, contentDescription = "add")
         }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) 
     {
         // More menu ------------------------------------------
@@ -62,8 +64,8 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                 ItemMenu("تدبير",Icons.Default.Check,viewModelGPhone.openCardOperations){
                                       viewModelGPhone.checkAll(false)
                 },
-                ItemMenu(" الكل", Icons.Default.Delete,mutableStateOf(false),
-                ) { viewModelGPhone.deleteAll() },
+                ItemMenu(title = " الكل",icon= Icons.Default.Delete,
+                operation =  { viewModelGPhone.deleteAll() })
             )
             MoreMenu(openedMenu, mapMenu)
         }
