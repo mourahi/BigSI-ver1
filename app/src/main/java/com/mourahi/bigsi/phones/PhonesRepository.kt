@@ -114,12 +114,12 @@ private fun initialisation(){
              subCats.clear()
          }
         if(allDataInitial.isNotEmpty()){
-           var t =if(sCats.isNotEmpty())  allDataInitial.filter { sCats.contains(it.cycle) } else allDataInitial
-            t= if(subC.isNotEmpty() && sCats.isNotEmpty()) t.filter { subC.contains(it.commune) } else t
+           var t =if(sCats.isNotEmpty())  allDataInitial.filter { it.cycle in sCats } else allDataInitial
+            t= if(subC.isNotEmpty() && sCats.isNotEmpty()) t.filter { it.commune in subC } else t
             allData.clear()
             allData.addAll(t)
             subCats.clear()
-            if(sCats.isNotEmpty())  subCats.addAll(t.map { it.commune }.filter { it.isNotEmpty() }.toSet())
+            if(sCats.isNotEmpty())  subCats.addAll(allDataInitial.filter { it.commune.isNotEmpty() && it.cycle in sCats  }. map { it.commune }.toSet())
         }
     }
 
