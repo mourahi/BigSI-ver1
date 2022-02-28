@@ -39,9 +39,9 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {  GroupsPhoneRepository.updateAll(gPhones) }
     }
 
-    fun insertGroupsPhone(gPh: GroupsPhone, personal:Boolean=false) {
+    fun insertGroupsPhone(gPh: GroupsPhone) {
         viewModelScope.launch{
-         if(!personal) GroupsPhoneRepository.insertGPhone(gPh) else GroupsPhoneRepository.insertNewPersonelGroupsPhone(gPh)
+         if(!gPh.isPersonnel) GroupsPhoneRepository.insertGPhone(gPh) else GroupsPhoneRepository.insertNewPersonelGroupsPhone(gPh)
         }
 
     }

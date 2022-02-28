@@ -11,7 +11,7 @@ object GroupsPhoneRepository {
     private val myDao:GroupsPhoneDao by lazy { viewModelMain.myDB.myGroupsDao()  }
 
     val allData = mutableStateListOf<GroupsPhone>()
-
+    val allFavData = mutableStateListOf<GroupsPhone>()
     val allDataDistant = mutableStateListOf<GroupsPhone>()
 
      suspend fun getAll(forServer:Boolean= false){
@@ -21,8 +21,11 @@ object GroupsPhoneRepository {
          }else{
              myDao.getAll().observeForever {
                  Log.d("adil","ObserveForever hhhh")
-                 allData.clear()
-                 if(it != null ) allData.addAll(it)
+                 allData.clear() ; allFavData.clear()
+                 if(it != null ) {
+                     allData.addAll(it)
+                     allFavData.addAll(it.filter { v->v.isFav })
+                 }
                  else Log.d("adil","pas de données dans room")
              }
          }
@@ -51,12 +54,6 @@ object GroupsPhoneRepository {
         Log.d("adil","2/ GroupsPhoneRepository id= ${gPh.id} ref=${gPh.link}")//todo:-----------------------
         val refgroup = myDao.insert(gPh).toInt()
         Log.d("adil","fin insert GPH, et essaie d'inserer PHONES AVEC refGroup=$refgroup")
-/*        val data:MutableList<GroupsPhone> = allDataDistant.value as MutableList<GroupsPhone>
-
-        val i = data.indexOf(gPh)
-        gPh.id = refgroup
-        data[i] = gPh*/
-       // allDataDistant.value
 
         PhonesRepository.insertListPhonesFromGroupsPhone(gPh.link,refgroup)
         Log.d("adil","fin insertListPhonesFromGroupsPhone")

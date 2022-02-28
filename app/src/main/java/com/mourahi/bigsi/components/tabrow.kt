@@ -25,6 +25,7 @@ fun MyTabRow(tabData:List<Array<Any>>, tabIndex:MutableState<Int>) {
                     Icon(modifier = Modifier.padding(start = 4.dp), imageVector = arr[1] as ImageVector, contentDescription = null)
                 }
             })
+
         }
     }
 }

@@ -8,9 +8,13 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.mourahi.bigsi.components.isConnected
+import com.mourahi.bigsi.groupsphone.GroupsPhone
+import com.mourahi.bigsi.groupsphone.GroupsPhoneRepository
 import com.mourahi.bigsi.mydata.MyRoomDB
+import kotlinx.coroutines.launch
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,6 +22,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val appContext: Context by lazy {  application.applicationContext }
     lateinit var navController:NavHostController
     val myDB: MyRoomDB by lazy { MyRoomDB.myDB(application) }
+
+    val allFavGroupsPhone:List<GroupsPhone> by lazy {
+            viewModelScope.launch {GroupsPhoneRepository.getAll(false) }
+             GroupsPhoneRepository.allFavData
+    }
+
+    fun updateGroupsPhone(gPh:GroupsPhone){
+        viewModelScope.launch {
+            GroupsPhoneRepository.updateGphone(gPh)
+        }
+    }
+
 
     fun isCo(): Boolean {
         return isConnected(appContext)
@@ -58,5 +74,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
 
     }
+
 
 }

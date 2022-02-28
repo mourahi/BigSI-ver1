@@ -72,10 +72,10 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
         // EditGroupsDialog------------------------------------------
         if(viewModelGPhone.openGroupsDialog.value) EditGroupsDialog(
             title="مجموعة الهاتف",
-            groupsPhone = GroupsPhone("",""), //toujour new dans GroupPhonePage
+            groupsPhone = GroupsPhone("","", isPersonnel = true), //toujour new dans GroupPhonePage
             viewModelGPhone.openGroupsDialog,
         ){
-                if(it != null) viewModelGPhone.insertGroupsPhone(it,true) else Log.d("adil","valeur null")
+                if(it != null) viewModelGPhone.insertGroupsPhone(it) else Log.d("adil","valeur null")
         }
 
         // CardOperations------------------------------------------
