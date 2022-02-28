@@ -1,5 +1,6 @@
 package com.mourahi.bigsi.phones
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -33,6 +34,10 @@ interface PhoneDao{
 
     @Query ("SELECT * FROM phone WHERE refgroup = :refgroup")
     suspend fun getByRefGroup(refgroup: Int):List<Phone>
+
+
+    @Query("SELECT * FROM phone WHERE fav = 1")
+    fun getAllFav(): LiveData<List<Phone>>
 
     @Insert
     suspend fun insert(ph: Phone)

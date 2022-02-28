@@ -12,6 +12,7 @@ object PhonesRepository {
 
     val allData = mutableStateListOf<Phone>()
     private val allDataInitial = mutableStateListOf<Phone>()
+    val allFavData = mutableStateListOf<Phone>()
 
     var activeGroupsPhone =GroupsPhone("","")
     var activePhone = Phone(nom = "", ecole = "", tel = "", cycle = "")
@@ -36,6 +37,13 @@ object PhonesRepository {
                 allDataInitial.addAll(allData.toList())
                 initialisation()
             }
+        }
+    }
+
+    suspend fun getAllFavPhone(){
+        myDao.getAllFav().observeForever {
+            allFavData.clear()
+            allFavData.addAll(it)
         }
     }
 

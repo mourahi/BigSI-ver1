@@ -14,6 +14,8 @@ import com.mourahi.bigsi.components.isConnected
 import com.mourahi.bigsi.groupsphone.GroupsPhone
 import com.mourahi.bigsi.groupsphone.GroupsPhoneRepository
 import com.mourahi.bigsi.mydata.MyRoomDB
+import com.mourahi.bigsi.phones.Phone
+import com.mourahi.bigsi.phones.PhonesRepository
 import kotlinx.coroutines.launch
 
 
@@ -27,10 +29,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {GroupsPhoneRepository.getAll(false) }
              GroupsPhoneRepository.allFavData
     }
+    val allFavPhones:List<Phone> by lazy {
+        viewModelScope.launch {PhonesRepository.getAllFavPhone() }
+        PhonesRepository.allFavData
+    }
 
     fun updateGroupsPhone(gPh:GroupsPhone){
         viewModelScope.launch {
             GroupsPhoneRepository.updateGphone(gPh)
+        }
+    }
+    fun updatePhone(ph:Phone){
+        viewModelScope.launch {
+            PhonesRepository.updatePhone(ph)
         }
     }
 
