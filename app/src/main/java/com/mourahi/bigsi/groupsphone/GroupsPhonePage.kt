@@ -29,7 +29,7 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                 defaultText = ""
                     ){
                     Log.d("adil","valeur chercher = $it")
-                 if(it.length>2)   viewModelGPhone.search(it)
+                 viewModelGPhone.search(it)
 
                 }
                         },

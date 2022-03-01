@@ -1,6 +1,5 @@
 package com.mourahi.bigsi.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,12 +35,12 @@ fun EditGroupsDialog(
                 OutlinedTextField(
                     value = name.value,
                     onValueChange = { name.value = it },
-                    label = { Text(text = "name") }
+                    label = { Text(text = "إسم المجموعة") }
                 )
                 OutlinedTextField(
                     value = region.value,
                     onValueChange = { region.value = it },
-                    label = { Text(text = "region") }
+                    label = { Text(text = "الفئة") }
                 )
             }
 
@@ -49,29 +48,25 @@ fun EditGroupsDialog(
         confirmButton = { // if gPhone == null ===>  NEW
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Button(onClick = {
-                    Log.d("adil", "update et pas save hhh ")
                     openGroupsDialog.value = false  //on update et pas  on save
                     groupsPhone.name = name.value ; groupsPhone.region = region.value
                    onUpdate(groupsPhone)
                 }) {
-                    Text(text = "save")
+                    Text(text = "حفظ")
                 }
                 Button(onClick = {
-                    Log.d("adil", "cancel")
                     openGroupsDialog.value = false
                 }) {
-                    Text(text = "Cancel")
+                    Text(text = "إلغاء")
                 }
                 Button(onClick = {
-                    Log.d("adil", "delete ")
                     openGroupsDialog.value = false
                 }) {
-                    Text(text = "delete")
+                    Text(text = "حذف")
                 }
             }
         },
         dismissButton = {},
-
         )
 }
 
@@ -82,6 +77,7 @@ fun EditPhoneDialog(
 ) {
     val nom = remember { mutableStateOf(viewModel.activePhone.nom ) } //nom
     val tel = remember { mutableStateOf(viewModel.activePhone.tel ) } // tel
+    val email = remember { mutableStateOf(viewModel.activePhone.email ) } // email
     val catOrEcole = remember { mutableStateOf(viewModel.activePhone.cycle ) } // ecole
 
     AlertDialog(
@@ -100,6 +96,11 @@ fun EditPhoneDialog(
                     label = { Text(text = "الهاتف") }
                 )
                 OutlinedTextField(
+                    value = email.value,
+                    onValueChange = { email.value = it },
+                    label = { Text(text = "البريد") }
+                )
+                OutlinedTextField(
                     value = catOrEcole.value,
                     onValueChange = { catOrEcole.value = it },
                     label = { Text(text = "الفئة") }
@@ -109,7 +110,6 @@ fun EditPhoneDialog(
         confirmButton = { // if phone == null ===>  NEW
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Button(onClick = { // todo:a completer with isNew
-                    Log.d("adil", "save ")
                     viewModel.openPhoneDialog.value = false
                     if(viewModel.activePhone.ref == 0){
                         viewModel.insertPhone( Phone(nom=nom.value, tel = tel.value, ecole = catOrEcole.value, refgroup =viewModel.activeGroupsPhone.id  ))
@@ -118,23 +118,22 @@ fun EditPhoneDialog(
                         p.nom = nom.value
                         p.tel = tel.value
                         p.ecole=catOrEcole.value
+                        p.email = email.value
                         viewModel.update(viewModel.activePhone)
                     }
                 }) {
-                    Text(text = "save")
+                    Text(text = "حفظ")
                 }
                 Button(onClick = {
-                    Log.d("adil", "cancel")
                     viewModel.openPhoneDialog.value = false
                 }) {
-                    Text(text = "Cancel")
+                    Text(text = "إلغاء")
                 }
                 Button(onClick = {
-                    Log.d("adil", "delete ")
                     viewModel.openPhoneDialog.value = false
                     viewModel.delete(viewModel.activePhone)
                 }) {
-                    Text(text = "delete")
+                    Text(text = "حذف")
                 }
             }
         },

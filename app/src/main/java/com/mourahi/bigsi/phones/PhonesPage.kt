@@ -29,10 +29,11 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
                 title = {
                     MyTextField(
                         title = title.value,
-                        label = "par nom ou num",
+                        label = "الاسم او الهاتف",
                         defaultText = "",
                         openEditor = phonesViewModel.openGroupsDialog
                     ) {
+                        phonesViewModel.search(it)
                     }
                 },
                 navigationIcon = {
@@ -76,7 +77,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //
 
         if (phonesViewModel.openGroupsDialog.value) EditGroupsDialog(
-           title = "مجموعة الهاتف",
+           title = "المجموعات",
            groupsPhone = phonesViewModel.activeGroupsPhone,
             phonesViewModel.openGroupsDialog
         ){

@@ -12,6 +12,7 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
     val openCardOperations = mutableStateOf(false)
 
     val gPhones = GroupsPhoneRepository.allData
+    val gPhonesInitial = GroupsPhoneRepository.allDataInitial
 
     init {
         Log.d("adil", "GroupsPhoneViewModel: Initialisation groupsPhoneRepo")
@@ -75,9 +76,15 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
     fun search(s:String){
-        viewModelScope.launch {
-            GroupsPhoneRepository.search(s)
+        Log.d("adil","gphoneinitial = ${gPhonesInitial.size} gphones=${gPhones.size}")
+        gPhones.clear()
+        if(s.isNotEmpty()){
+            val t = gPhonesInitial.filter { it.name.contains(s,true) }.toList()
+            gPhones.addAll(t)
+        }else {
+            gPhones.addAll(gPhonesInitial.toList())
         }
+
     }
 
 }

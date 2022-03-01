@@ -21,6 +21,7 @@ class PhonesViewModel:ViewModel() {
     val subCatsSelected = mutableStateListOf<String>()
 
     val phones = PhonesRepository.allData
+    val phonesInitial = PhonesRepository.allDataInitial
 
     var activeGroupsPhone = PhonesRepository.activeGroupsPhone
     val activePhone = PhonesRepository.activePhone
@@ -94,6 +95,17 @@ class PhonesViewModel:ViewModel() {
              phones.forEach { it.isChecked=check }
              PhonesRepository.checkAll(check,activeGroupsPhone.id)
          }
+    }
+    fun search(s:String){
+        Log.d("adil","gphoneinitial = ${phonesInitial.size} gphones=${phones.size}")
+        phones.clear()
+        if(s.isNotEmpty()){
+            val t = phonesInitial.filter { it.nom.contains(s,true) || it.email.contains(s,true) || it.tel.contains(s,true)  }.toList()
+            phones.addAll(t)
+        }else {
+            phones.addAll(phonesInitial.toList())
+        }
+
     }
 
 }
