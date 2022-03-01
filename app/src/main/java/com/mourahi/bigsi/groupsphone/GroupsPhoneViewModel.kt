@@ -74,5 +74,10 @@ class GroupsPhoneViewModel(application: Application) : AndroidViewModel(applicat
             GroupsPhoneRepository.deleteAll()
         }
     }
+    fun search(s:String){
+        viewModelScope.launch {
+            GroupsPhoneRepository.search(s)
+        }
+    }
 
 }

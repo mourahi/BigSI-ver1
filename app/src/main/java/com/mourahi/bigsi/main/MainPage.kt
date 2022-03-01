@@ -39,7 +39,7 @@ import com.mourahi.bigsi.viewModelMain
 @Composable
 fun MainPage(){
     val tabIndex = rememberSaveable { mutableStateOf(0) }
-    val colla = rememberSaveable { mutableStateOf(0) }
+    val colla = rememberSaveable { mutableStateOf(-1) }
     val mu = remember { mutableStateOf(false) }
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
             item {
@@ -49,18 +49,21 @@ fun MainPage(){
                 MainBox()
             }
           item() {
-              Text(
-                  text = "Favoris", fontSize = 20.sp,
-                  modifier= Modifier
-                      .padding(myPadding)
-                      .fillMaxWidth(), textAlign = TextAlign.Start
-              )
+             Row(verticalAlignment = Alignment.CenterVertically){
+                Icon(Icons.Filled.Favorite, contentDescription = null, tint = Color.Black)
+                  Text(
+                      text = "المفضلة", fontSize = 20.sp,
+                      modifier = Modifier
+                          .padding(myPadding)
+                          .fillMaxWidth(), textAlign = TextAlign.Start
+                  )
+              }
           }
           item{
                 Log.d("adil","reslutat = ${viewModelMain.allFavGroupsPhone}")
               val tabData = listOf(
-                  arrayOf("المجموعة",Icons.Filled.Home, viewModelMain.allFavGroupsPhone),
-                  arrayOf("الهواتف", Icons.Filled.ShoppingCart, viewModelMain.allFavPhones) )
+                  arrayOf("المجموعة",Icons.Filled.Workspaces, viewModelMain.allFavGroupsPhone),
+                  arrayOf("الهاتف", Icons.Filled.Call, viewModelMain.allFavPhones) )
               MyTabRow(tabData,tabIndex)
           }
         if(tabIndex.value == 0) {
@@ -116,7 +119,7 @@ private fun MainFavorisCard(){
 
 @Composable
 private fun MainBox() {
-    val h = 140.dp
+    val h = 100.dp
     Column(Modifier.fillMaxWidth()) {
         //GroupsPHone
         Row(
@@ -170,7 +173,7 @@ private fun MainBox() {
                         viewModelMain.navController.navigate("formationspage")
                     }
             ){
-                Text(text = "Formations", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+                Text(text = "التكوينات", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
             }
             //FOrms -------------------------------------------
             Box(
@@ -182,7 +185,7 @@ private fun MainBox() {
                         viewModelMain.navController.navigate("formspage")
                     }
             ){
-                Text(text = "Forms", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+                Text(text = "اسثمارات", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
             }
         }
     }

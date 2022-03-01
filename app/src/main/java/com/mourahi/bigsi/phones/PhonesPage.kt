@@ -70,7 +70,7 @@ fun PhonesPage(phonesViewModel: PhonesViewModel= viewModel()) {
             ItemMenu("هاتف",Icons.Default.Add, phonesViewModel.openPhoneDialog){
                 phonesViewModel.activePhone( Phone("",""))
             },
-            ItemMenu("تدبير", Icons.Default.Check, phonesViewModel.openCardOperations),
+            ItemMenu("تدبير", Icons.Default.Edit, phonesViewModel.openCardOperations),
         )
 
         if (openedMenu.value) MoreMenu(openedMenu, mapMenu) //

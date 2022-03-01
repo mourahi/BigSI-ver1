@@ -46,5 +46,9 @@ import androidx.room.*
 
     @Query("DELETE FROM groups_phone")
     suspend fun deleteAll()
+
+    // A revoir avec recherche directe sur allDataInitial
+    @Query("SELECT * FROM groups_phone WHERE name LIKE :s")
+    suspend fun search(s:String):List<GroupsPhone>
 }
 

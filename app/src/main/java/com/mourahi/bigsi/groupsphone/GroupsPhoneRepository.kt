@@ -92,5 +92,10 @@ object GroupsPhoneRepository {
       return  myDao.getById(id)
     }
 
+    suspend fun search(s:String){
+        allData.clear()
+       allData.addAll(myDao.search(s))
+    }
+
 
 }

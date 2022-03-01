@@ -29,6 +29,8 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
                 defaultText = ""
                     ){
                     Log.d("adil","valeur chercher = $it")
+                 if(it.length>2)   viewModelGPhone.search(it)
+
                 }
                         },
                 navigationIcon = {
@@ -61,7 +63,7 @@ fun GroupsPhonePage(viewModelGPhone: GroupsPhoneViewModel = viewModel()){
         if(openedMenu.value) {
             val mapMenu = listOf(
                 ItemMenu("مجموعة",Icons.Default.Add,viewModelGPhone.openGroupsDialog),
-                ItemMenu("تدبير",Icons.Default.Check,viewModelGPhone.openCardOperations){
+                ItemMenu("تدبير",Icons.Default.Edit,viewModelGPhone.openCardOperations){
                                       viewModelGPhone.checkAll(false)
                 },
                 ItemMenu(title = " الكل",icon= Icons.Default.Delete,
